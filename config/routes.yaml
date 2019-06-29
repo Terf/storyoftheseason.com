@@ -1,3 +1,4 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+square-webhook:
+   path: /webhooks/square
+   controller: App\Controller\SquareCallbackController::receiveEvent
+   methods: POST|GET

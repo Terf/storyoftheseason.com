@@ -14,6 +14,10 @@ class SquareCallbackController extends AbstractController
      */
     public function receiveEvent()
     {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if ($data) {
+            # code...
+        }
         return new JsonResponse(true);
     }
 }

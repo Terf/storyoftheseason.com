@@ -2,3 +2,11 @@ square-webhook:
    path: /webhooks/square
    controller: App\Controller\SquareCallbackController::receiveEvent
    methods: POST|GET
+registration-form:
+   path: /
+   controller: App\Controller\RegistrationController::index
+   methods: GET
+registration-submit:
+   path: /register
+   controller: App\Controller\RegistrationController::submit
+   methods: POST

@@ -32,6 +32,11 @@ class Buyer
      */
     private $location;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Seller", inversedBy="buyers")
+     */
+    private $seller;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Buyer
     public function setLocation(?Location $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getSeller(): ?Seller
+    {
+        return $this->seller;
+    }
+
+    public function setSeller(?Seller $seller): self
+    {
+        $this->seller = $seller;
 
         return $this;
     }

@@ -27,6 +27,7 @@ class RegistrationController extends AbstractController
         $location->setAddress($request->request->get('addr'));
         $location->setZip($request->request->get('zip'));
         $location->setCountry($request->request->get('country'));
+        $location->setState($request->request->get('state'));
 
         $seller->setName($request->request->get('student'));
         $seller->setType($request->request->get('studentRelationship'));

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Shop
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="/uploads/{{product.image}}" class="card-img-top" alt="{{product.name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}}</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium consequatur ut facere facilis laudantium eum, aliquam perspiciatis incidunt soluta quia tenetur deleniti, reprehenderit, illo dolores tempora nisi ipsam iure expedita.</p>
+                    <form action="{{ path('buy-now') }}" method="POST">
+                        <input type="hidden" name="name" value="{{product.name}}">
+                        <input type="hidden" name="price" value="{{product.price}}">
+                        <input type="hidden" name="user" value="{{ app.request.cookies.get('user_id') }}">
+                        <button type="submit" class="btn btn-primary">Buy now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

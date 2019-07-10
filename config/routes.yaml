@@ -1,12 +1,44 @@
-square-webhook:
-   path: /webhooks/square
-   controller: App\Controller\SquareCallbackController::receiveEvent
-   methods: POST|GET
-registration-form:
+index:
    path: /
+   controller: App\Controller\LandingController::index
+   methods: GET
+
+shop:
+   path: /shop
+   controller: App\Controller\ProductController::shop
+   methods: GET
+buy-now:
+   path: /purchase
+   controller: App\Controller\ProductController::purchase
+   methods: POST
+
+registration-form:
+   path: /register
    controller: App\Controller\RegistrationController::index
    methods: GET
 registration-submit:
-   path: /register
+   path: /register/submit
    controller: App\Controller\RegistrationController::submit
+   methods: POST
+login-form:
+   path: /login
+   controller: App\Controller\LoginController::index
+   methods: GET
+login-submit:
+   path: /login/submit
+   controller: App\Controller\LoginController::submit
+   methods: POST
+
+product-admin:
+   path: /admin/products
+   controller: App\Controller\ProductManagerController::index
+   methods: GET
+product-create:
+   path: /admin/product/create
+   controller: App\Controller\ProductManagerController::create
+   methods: POST
+
+paypal-webhook:
+   path: /webhooks/paypal
+   controller: App\Controller\PaypalCallbackController::receiveEvent
    methods: POST

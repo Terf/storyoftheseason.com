@@ -34,6 +34,8 @@ class RegistrationController extends AbstractController
 
         $buyer->setFirstName($request->request->get('fname'));
         $buyer->setLastName($request->request->get('lname'));
+        $buyer->setPassword(password_hash($request->request->get('pass'), PASSWORD_DEFAULT));
+        $buyer->setPhone($request->request->get('phone'));
         $buyer->setLocation($location);
         $buyer->setSeller($seller);
 

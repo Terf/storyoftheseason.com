@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Login Form
+{% endblock %}
+{% block body %}
+<div class="container">
+    <h2 class="text-center mt-4 mb-4">Your purchases</h2>
+    {% for purchase in purchases %}
+        <p>{{purchase.product.name}}</p>
+    {% endfor %}
+</div>
+{% endblock %}

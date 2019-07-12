@@ -12,6 +12,11 @@ buy-now:
    controller: App\Controller\ProductController::purchase
    methods: POST
 
+bookshelf:
+   path: /user/{id}/bookshelf
+   controller: App\Controller\BookshelfController::index
+   methods: GET
+
 registration-form:
    path: /register
    controller: App\Controller\RegistrationController::index

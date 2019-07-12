@@ -19,14 +19,14 @@ class LoginController extends AbstractController
 
     public function submit(Request $request, EntityManagerInterface $entityManager)
     {
-        $name = $request->request->get('name');
+        $email = $request->request->get('email');
         $password = $request->request->get('password');
 
-        if ($name === null || $password === null) {
-            throw new \Exception("Missing fields: need to POST 'name', 'password'; received " . print_r($request->request->all(), true));
+        if ($email === null || $password === null) {
+            throw new \Exception("Missing fields: need to POST 'email', 'password'; received " . print_r($request->request->all(), true));
         }
 
-        $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['firstName' => $name]);
+        $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['email' => $email]);
         if (password_verify($password, $user->getPassword())) {
             $response = new JsonResponse(true);
             $response->headers->setCookie(Cookie::create('user_id', $user->getId()));

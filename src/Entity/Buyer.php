@@ -54,6 +54,16 @@ class Buyer
      */
     private $purchases;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
@@ -163,6 +173,30 @@ class Buyer
                 $purchase->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

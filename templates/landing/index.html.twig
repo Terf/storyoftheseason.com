@@ -1,20 +1,15 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello LandingController!{% endblock %}
-
+{% block title %}
+Story of the season
+{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/tim/repos/storyIt/storyoftheseason.com/src/Controller/LandingController.php'|file_link(0) }}">src/Controller/LandingController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/tim/repos/storyIt/storyoftheseason.com/templates/landing/index.html.twig'|file_link(0) }}">templates/landing/index.html.twig</a></code></li>
-    </ul>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Story of the season</h1>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae, modi. Quaerat obcaecati facilis alias. Expedita aliquam ducimus placeat cum soluta incidunt nesciunt aperiam similique, ipsum, nobis tempore, consectetur officiis quae.</p>
+        <hr class="my-4">
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde magnam error est? Nemo, temporibus labore! Facere quas voluptatibus aperiam commodi corrupti tempora vero rem! Velit illo officia aspernatur impedit aperiam.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
 </div>
 {% endblock %}

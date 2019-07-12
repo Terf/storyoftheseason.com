@@ -28,16 +28,19 @@ class PaypalCallbackController extends AbstractController
              * A list of variables is available here:
              * https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
             */
-            // todo get $id vars from paypal post data
-            $product = $entityManager->getRepository(Entity\Product::class)->find($id);
-            $user = $entityManager->getRepository(Entity\Buyer::class)->find($id);
+            $custom = $name = $request->request->get('custom');
+            $product = $entityManager->getRepository(Entity\Product::class)->find($custom[0]);
+            $user = $entityManager->getRepository(Entity\Buyer::class)->find($custom[1]);
 
             $purchase = new Entity\Purchase;
             $purchase->setProduct($product);
             $purchase->setUser($user);
+            $entityManager->persist($purchase);
+            $entityManager->flush();
+            return new JsonResponse(true);
         }
 
-        return new JsonResponse(true);
+        return new JsonResponse(false);
     }
 
 }

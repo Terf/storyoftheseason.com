@@ -15,9 +15,8 @@ class PaypalCallbackController extends AbstractController
     /**
      * paypal-webhook
      */
-    public function receiveEvent(PaypalService $paypal, Request $request, EntityManagerInterface $entityManager)
+    public function receiveEvent(PaypalService $ipn, Request $request, EntityManagerInterface $entityManager)
     {
-        $ipn = new PaypalIPN;
         if (getenv('APP_ENV') === 'debug') {
             $ipn->useSandbox();
         }

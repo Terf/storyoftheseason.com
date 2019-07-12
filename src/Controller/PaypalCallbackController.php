@@ -17,6 +17,7 @@ class PaypalCallbackController extends AbstractController
      */
     public function receiveEvent(PaypalService $ipn, Request $request, EntityManagerInterface $entityManager)
     {
+        $ipn->usePHPCerts();
         if (getenv('APP_ENV') === 'debug') {
             $ipn->useSandbox();
         }
@@ -27,7 +28,7 @@ class PaypalCallbackController extends AbstractController
              * A list of variables is available here:
              * https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
             */
-            $custom = $name = $request->request->get('custom');
+            $custom = $request->request->get('custom');
             $product = $entityManager->getRepository(Entity\Product::class)->find($custom[0]);
             $user = $entityManager->getRepository(Entity\Buyer::class)->find($custom[1]);
 

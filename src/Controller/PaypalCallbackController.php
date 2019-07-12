@@ -21,8 +21,8 @@ class PaypalCallbackController extends AbstractController
         if (getenv('APP_ENV') === 'debug') {
             $ipn->useSandbox();
         }
-        $verified = $ipn->verifyIPN();
-        if ($verified) {
+        // $verified = $ipn->verifyIPN();
+        // if ($verified) {
             /*
              * Process IPN
              * A list of variables is available here:
@@ -31,6 +31,12 @@ class PaypalCallbackController extends AbstractController
             $custom = $request->request->get('custom');
             $product = $entityManager->getRepository(Entity\Product::class)->find($custom[0]);
             $user = $entityManager->getRepository(Entity\Buyer::class)->find($custom[1]);
+            if ($product === null) {
+                throw new \Exception("Product #{$product} not found");
+            }
+            if ($user === null) {
+                throw new \Exception("User #{$user} not found");
+            }
 
             $purchase = new Entity\Purchase;
             $purchase->setProduct($product);
@@ -38,9 +44,9 @@ class PaypalCallbackController extends AbstractController
             $entityManager->persist($purchase);
             $entityManager->flush();
             return new JsonResponse(true);
-        }
+        // }
 
-        return new JsonResponse(false);
+        // return new JsonResponse(false);
     }
 
 }

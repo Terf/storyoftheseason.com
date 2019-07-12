@@ -29,6 +29,7 @@ class PaypalCallbackController extends AbstractController
              * https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
             */
             $custom = $request->request->get('custom');
+            $custom = explode(',', $custom);
             $product = $entityManager->getRepository(Entity\Product::class)->find($custom[0]);
             $user = $entityManager->getRepository(Entity\Buyer::class)->find($custom[1]);
             if ($product === null) {

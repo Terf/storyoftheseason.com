@@ -18,21 +18,24 @@ class ProductController extends AbstractController
         ]);
     }
 
-    public function purchase(Request $request)
+    public function purchase(Request $request, EntityManagerInterface $entityManager)
     {
-        $price = $request->request->get('price'); // todo verify this is actual price
-        $productId = $request->request->get('pid');
+        $productId = $request->request->get('product');
         $userId = $request->request->get('user');
+        if ($productId === null || $userId === null) {
+            throw new \Exception("Missing fields: need to POST 'product', 'user'; received " . print_r($request->request->all(), true));
+        }
 
-        if ($price === null || $productId === null || $userId === null) {
-            throw new \Exception("Missing fields: need to POST 'pid', 'price', 'user'; received " . print_r($request->request->all(), true));
+        $product = $entityManager->getRepository(Entity\Product::class)->find($productId);
+        if ($product === null) {
+            throw new \Exception("Product #{$productId} not found");
         }
 
         $query = [];
         $query['cmd'] = '_xclick';
         $query['business'] = 'chris@storyoftheseason.co';
-        $query['item_name'] = $name;
-        $query['amount'] = $price;
+        $query['item_name'] = $product->getName();
+        $query['amount'] = $product->getPrice();
         $query['currency_code'] = 'USD';
         $query['return_url'] = 'https://storyoftheseason.co?paypal=success';
         $query['cancel_url'] = 'https://storyoftheseason.co?paypal=cancel';

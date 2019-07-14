@@ -13,8 +13,8 @@
       <li class="nav-item {% if route == path('shop') %}active{% endif %}">
         <a class="nav-link" href="{{ path('shop') }}">Subscribe to your team</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Upload to your story</a>
+      <li class="nav-item {% if route == path('upload-form') %}active{% endif %}">
+        <a class="nav-link" href="{{ path('upload-form') }}">Upload to your story</a>
       </li>
     </ul>
     <ul class="navbar-nav {% if route == path('login-form') %}active{% endif %}">

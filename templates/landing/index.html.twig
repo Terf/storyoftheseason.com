@@ -3,19 +3,84 @@
 Story of the season
 {% endblock %}
 {% block styles %}
-    {{ parent() }}
-    body {
-        background: url(images/bg.jpeg) no-repeat center center fixed;
-        background-size: cover;
-    }
+{{ parent() }}
+.navbar {
+margin-bottom: 0px !important;
+}
+#hero {
+background: url(images/bg.jpeg) no-repeat center center fixed;
+background-size: cover;
+}
 {% endblock %}
 {% block body %}
 {% include 'navbar.html.twig' %}
+<div class="mb-4" id="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center text-uppercase font-weight-bolder" style="font-size: 5rem">Story of the Season
+                </h1>
+                <h3 class="text-center"><b>Story of the Season</b> is how sports teams <b>tell their story</b> and
+                    <b>engage
+                        their fans</b></h3>
+                <div class="jumbotron mx-auto" style="max-width: 40vw">
+                    <img src="images/nkbhg.png" alt="" class="img-fluid mx-auto d-block">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
-    <h1 class="text-center text-uppercase font-weight-bolder" style="font-size: 5rem">Story of the Season</h1>
-    <h3 class="text-center"><b>Story of the Season</b> is how sports teams <b>tell their story</b> and <b>engage their fans</b></h3>
-    <div class="jumbotron mx-auto" style="max-width: 40vw">
-        <img src="images/nkbhg.png" alt="" class="img-fluid mx-auto d-block">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-uppercase text-center">Coaches, build your program</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Weekly newsletter
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, unde?</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Digital yearbook
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, unde?</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Recruiting tool
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, unde?</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Fundraiser
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, unde?</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

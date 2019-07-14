@@ -12,6 +12,15 @@ buy-now:
    controller: App\Controller\ProductController::purchase
    methods: POST
 
+upload-form:
+   path: /upload
+   controller: App\Controller\UploadController::index
+   methods: GET
+upload-submit:
+   path: /upload/submit
+   controller: App\Controller\UploadController::submit
+   methods: GET
+
 bookshelf:
    path: /user/{id}/bookshelf
    controller: App\Controller\BookshelfController::index

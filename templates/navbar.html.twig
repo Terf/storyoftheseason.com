@@ -1,0 +1,26 @@
+{% set route = path(app.request.attributes.get('_route')) %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-4">
+  <a class="navbar-brand" href="{{ path('index') }}">Logo</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if route == path('index') %}active{% endif %}">
+        <a class="nav-link" href="{{ path('index') }}">Home</a>
+      </li>
+      <li class="nav-item {% if route == path('shop') %}active{% endif %}">
+        <a class="nav-link" href="{{ path('shop') }}">Subscribe to your team</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Upload to your story</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav {% if route == path('login-form') %}active{% endif %}">
+      <li class="nav-item float-right">
+        <a class="nav-link" href="{{ path('login-form') }}">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>

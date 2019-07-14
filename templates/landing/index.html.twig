@@ -2,14 +2,20 @@
 {% block title %}
 Story of the season
 {% endblock %}
+{% block styles %}
+    {{ parent() }}
+    body {
+        background: url(images/bg.jpeg) no-repeat center center fixed;
+        background-size: cover;
+    }
+{% endblock %}
 {% block body %}
+{% include 'navbar.html.twig' %}
 <div class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">Story of the season</h1>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae, modi. Quaerat obcaecati facilis alias. Expedita aliquam ducimus placeat cum soluta incidunt nesciunt aperiam similique, ipsum, nobis tempore, consectetur officiis quae.</p>
-        <hr class="my-4">
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde magnam error est? Nemo, temporibus labore! Facere quas voluptatibus aperiam commodi corrupti tempora vero rem! Velit illo officia aspernatur impedit aperiam.</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    <h1 class="text-center text-uppercase font-weight-bolder" style="font-size: 5rem">Story of the Season</h1>
+    <h3 class="text-center"><b>Story of the Season</b> is how sports teams <b>tell their story</b> and <b>engage their fans</b></h3>
+    <div class="jumbotron mx-auto" style="max-width: 40vw">
+        <img src="images/nkbhg.png" alt="" class="img-fluid mx-auto d-block">
     </div>
 </div>
 {% endblock %}

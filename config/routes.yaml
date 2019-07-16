@@ -19,7 +19,7 @@ upload-form:
 upload-submit:
    path: /upload/submit
    controller: App\Controller\UploadController::submit
-   methods: GET
+   methods: POST
 
 bookshelf:
    path: /user/{id}/bookshelf

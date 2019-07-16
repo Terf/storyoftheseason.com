@@ -11,9 +11,11 @@ use App\Entity;
 
 class ProductManagerController extends AbstractController
 {
-    public function index()
+    public function index($password, Request $request)
     {
-        return $this->render('product_manager/index.html.twig');
+        return (getenv('ADMIN_PASSWORD') === $password) ?
+            $this->render('product_manager/index.html.twig') :
+            new Response('Invalid password');
     }
 
     public function create(Request $request, EntityManagerInterface $entityManager)

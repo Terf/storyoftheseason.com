@@ -44,7 +44,7 @@ login-submit:
    methods: POST
 
 product-admin:
-   path: /admin/products
+   path: /admin/{password}/products
    controller: App\Controller\ProductManagerController::index
    methods: GET
 product-create:

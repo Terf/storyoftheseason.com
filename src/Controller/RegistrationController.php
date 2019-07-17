@@ -44,6 +44,15 @@ class RegistrationController extends AbstractController
         $entityManager->persist($seller);
         $entityManager->flush();
 
+        $purchase = $request->request->get('product');
+        if ($purchase !== null) {
+            $req = new Request;
+            $req->request->set('user', $buyer->getId());
+            $req->request->set('product', $purchase);
+            return $this->forward('App\Controller\ProductController::purchase', array(
+                'request'  => $req,
+            ));
+        }
         return new JsonResponse(true);
     }
 

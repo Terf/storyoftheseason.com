@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t web-server .
+docker build -t storyoftheseason .

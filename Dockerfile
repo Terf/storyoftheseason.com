@@ -1,5 +1,6 @@
 FROM php:7-apache
 ENV DEBIAN_FRONTEND=noninteractive TZ=America/New_York COMPOSER_ALLOW_SUPERUSER=1
+WORKDIR /var/www/html
 COPY apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY composer.* /var/www/html/
 COPY .env.local /var/www/html/
@@ -13,4 +14,4 @@ RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev && \
 	a2enmod rewrite headers
 # copy rest of files later to take advantage of cache
 COPY . /var/www/html/
-RUN chown -R www-data:www-data /var/www/
+RUN chown -R www-data:www-data /var/www/ && php bin/console --env=prod cache:clear

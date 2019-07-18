@@ -56,3 +56,8 @@ paypal-webhook:
    path: /webhooks/paypal
    controller: App\Controller\PaypalCallbackController::receiveEvent
    methods: POST
+
+kitaboo-webhook-create:
+   path: /kitaboo/products/create
+   controller: App\Controller\KitabooController::create
+   methods: POST

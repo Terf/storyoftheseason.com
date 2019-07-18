@@ -44,6 +44,8 @@ class RegistrationController extends AbstractController
         $entityManager->persist($seller);
         $entityManager->flush();
 
+        $this->registerWithKitaboo($buyer, $request->request->get('pass'));
+
         $purchase = $request->request->get('product');
         if ($purchase !== null) {
             $req = new Request;
@@ -56,4 +58,24 @@ class RegistrationController extends AbstractController
         return new JsonResponse(true);
     }
 
+    private function registerWithKitaboo(Entity\Buyer $user, string $unhashedPassword)
+    {
+        $baseUrl = ($this->getParameter('APP_ENV') === 'prod') ? $this->getParameter('KITABOO_API') : $this->getParameter('KITABOO_API_DEV');
+        $ch = curl_init($baseUrl . '/DistributionServices/ext/api/registerUser');
+        $json = [
+            'user' => [
+                'firstName' => $user->getFirstName(),
+                'lastName' => $user->getLastName(),
+                'userName' => $user->getEmail(),
+                'password' => $unhashedPassword,
+                'clientUserID' => $user->getId(),
+                'email' => $user->getEmail()
+            ]
+        ];
+        $encoded = json_encode($json);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded', 'OAuth 1.0 authorization header']);
+        curl_exec($ch);
+    }
 }

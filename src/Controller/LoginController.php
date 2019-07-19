@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity;
@@ -27,11 +28,15 @@ class LoginController extends AbstractController
         }
 
         $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['email' => $email]);
-        if (password_verify($password, $user->getPassword())) {
-            $response = new JsonResponse(true);
-            $response->headers->setCookie(Cookie::create('user_id', $user->getId()));
-            return $response;
+        if ($user === null) {
+            return $this->redirectToRoute('login-form');
+        } else {
+            if (password_verify($password, $user->getPassword())) {
+                $response = new RedirectResponse($this->generateUrl('shop'));
+                $response->headers->setCookie(Cookie::create('user_id', $user->getId()));
+                return $response;
+            }
+            return $this->redirectToRoute('login-form');
         }
-        return new JsonResponse(false);
     }
 }

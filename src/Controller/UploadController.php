@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity;
 
@@ -59,6 +60,6 @@ class UploadController extends AbstractController
         $entityManager->persist($upload);
         $entityManager->flush();
 
-        return new JsonResponse(true);
+        return $this->redirectToRoute('upload-form');
     }
 }

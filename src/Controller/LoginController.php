@@ -39,4 +39,11 @@ class LoginController extends AbstractController
             return $this->redirectToRoute('login-form');
         }
     }
+
+    public function signOut(Request $request)
+    {
+        $response = $this->redirectToRoute('index');
+        $response->headers->clearCookie('user_id');
+        return $response;
+    }
 }

@@ -42,6 +42,10 @@ login-submit:
    path: /login/submit
    controller: App\Controller\LoginController::submit
    methods: POST
+sign-out:
+   path: /sign-out
+   controller: App\Controller\LoginController::signOut
+   methods: GET
 
 product-admin:
    path: /admin/{password}/products

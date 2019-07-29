@@ -82,7 +82,9 @@
     </div>
     <div class="form-row">
         <div class="col form-group">
+            {% if product is defined %}
             <input type="hidden" name="product" value="{{product.id}}">
+            {% endif %}
             <button id="register-btn" type="submit" class="btn btn-outline-primary" disabled>Submit</button>
         </div>
     </div>

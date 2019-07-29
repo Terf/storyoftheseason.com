@@ -1,5 +1,5 @@
 {% set route = path(app.request.attributes.get('_route')) %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-4 shadow-lg">
   <a class="navbar-brand" href="{{ path('index') }}">Logo</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -17,10 +17,23 @@
         <a class="nav-link" href="{{ path('upload-form') }}">Upload to your story</a>
       </li>
     </ul>
+    {% if app.request.cookies.get('user_id') == null %}
     <ul class="navbar-nav {% if route == path('login-form') %}active{% endif %}">
       <li class="nav-item float-right">
         <a class="nav-link" href="{{ path('login-form') }}">Login</a>
       </li>
     </ul>
+    <ul class="navbar-nav {% if route == path('registration-form') %}active{% endif %}">
+      <li class="nav-item float-right">
+        <a class="nav-link" href="{{ path('registration-form') }}">Register</a>
+      </li>
+    </ul>
+    {% else %}
+    <ul class="navbar-nav">
+      <li class="nav-item float-right">
+        <a class="nav-link" href="{{ path('sign-out') }}">Sign out</a>
+      </li>
+    </ul>
+    {% endif %}
   </div>
 </nav>

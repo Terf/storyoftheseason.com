@@ -47,8 +47,16 @@ sign-out:
    controller: App\Controller\LoginController::signOut
    methods: GET
 
+login-form-admin:
+   path: /admin/login
+   controller: App\Controller\AdminLoginController::index
+   methods: GET
+login-form-admin-submit:
+   path: /admin/login/submit
+   controller: App\Controller\AdminLoginController::submit
+   methods: POST
 product-admin:
-   path: /admin/{password}/products
+   path: /admin/products
    controller: App\Controller\ProductManagerController::index
    methods: GET
 product-create:

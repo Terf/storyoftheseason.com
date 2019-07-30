@@ -11,15 +11,28 @@ use App\Entity;
 
 class ProductManagerController extends AbstractController
 {
-    public function index($password, Request $request)
+    public function index(Request $request, EntityManagerInterface $entityManager)
     {
-        return (getenv('ADMIN_PASSWORD') === $password) ?
-            $this->render('product_manager/index.html.twig') :
-            new Response('Invalid password');
+        if ($request->cookies->has('admin_token')) {
+            $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
+            if ($admin !== null) {
+                return $this->render('product_manager/index.html.twig');
+            }
+        }
+        return new Response('Access denied');
     }
 
     public function create(Request $request, EntityManagerInterface $entityManager)
     {
+        if ($request->cookies->has('admin_token')) {
+            $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
+            if ($admin === null) {
+                return new JsonResponse(false);
+            }
+        } else {
+            return new JsonResponse(false);
+        }
+
         $name = $request->request->get('name');
         $price = $request->request->get('price');
         $image = $request->files->get('image');

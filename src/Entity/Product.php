@@ -38,9 +38,15 @@ class Product
      */
     private $purchases;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Book", mappedBy="product", orphanRemoval=true)
+     */
+    private $books;
+
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
+        $this->books = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,37 @@ class Product
             // set the owning side to null (unless already changed)
             if ($purchase->getProduct() === $this) {
                 $purchase->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Book[]
+     */
+    public function getBooks(): Collection
+    {
+        return $this->books;
+    }
+
+    public function addBook(Book $book): self
+    {
+        if (!$this->books->contains($book)) {
+            $this->books[] = $book;
+            $book->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): self
+    {
+        if ($this->books->contains($book)) {
+            $this->books->removeElement($book);
+            // set the owning side to null (unless already changed)
+            if ($book->getProduct() === $this) {
+                $book->setProduct(null);
             }
         }
 

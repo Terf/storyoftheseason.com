@@ -63,6 +63,14 @@ product-create:
    path: /admin/product/create
    controller: App\Controller\ProductManagerController::create
    methods: POST
+book-admin:
+   path: /admin/books
+   controller: App\Controller\BookManagerController::index
+   methods: GET
+book-create:
+   path: /admin/book/create
+   controller: App\Controller\BookManagerController::create
+   methods: POST
 
 paypal-webhook:
    path: /webhooks/paypal

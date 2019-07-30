@@ -37,6 +37,11 @@ class Book
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $kitabooId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Book
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getKitabooId(): ?int
+    {
+        return $this->kitabooId;
+    }
+
+    public function setKitabooId(int $kitabooId): self
+    {
+        $this->kitabooId = $kitabooId;
 
         return $this;
     }

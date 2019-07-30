@@ -27,20 +27,16 @@ class LoginController extends AbstractController
             throw new \Exception("Missing fields: need to POST 'email', 'password'; received " . print_r($request->request->all(), true));
         }
 
-        $user = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['email' => $email]);
+        $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['email' => $email]);
         if ($user === null) {
-            return $this->redirectToRoute('login-form-admin');
+            return $this->redirectToRoute('login-form');
         } else {
             if (password_verify($password, $user->getPassword())) {
-                $token = bin2hex(random_bytes(16));
-                $user->setToken($token);
-                $entityManager->merge($user);
-                $entityManager->flush();
-                $response = new RedirectResponse($this->generateUrl('product-admin'));
-                $response->headers->setCookie(Cookie::create('admin_token', $token));
+                $response = new RedirectResponse($this->generateUrl('shop'));
+                $response->headers->setCookie(Cookie::create('user_id', $user->getId()));
                 return $response;
             }
-            return $this->redirectToRoute('login-form-admin');
+            return $this->redirectToRoute('login-form');
         }
     }
 

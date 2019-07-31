@@ -38,11 +38,20 @@ class ProductController extends AbstractController
             throw new \Exception("Product #{$productId} not found");
         }
 
+        $discount = 1;
+        $couponCode = $request->request->get('coupon');
+        if ($couponCode !== null) {
+            $coupon = $entityManager->getRepository(Entity\Coupon::class)->findOneBy(['code' => $couponCode]);
+            if ($coupon !== null) {
+                $discount = 1 - ($coupon->getDiscount() / 100);
+            }
+        }
+
         $query = [];
         $query['cmd'] = '_xclick';
         $query['business'] = 'chris@storyoftheseason.co';
         $query['item_name'] = $product->getName();
-        $query['amount'] = $product->getPrice();
+        $query['amount'] = $product->getPrice() * $discount;
         $query['currency_code'] = 'USD';
         $query['return_url'] = 'https://storyoftheseason.co?paypal=success';
         $query['cancel_url'] = 'https://storyoftheseason.co?paypal=cancel';

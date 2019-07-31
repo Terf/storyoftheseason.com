@@ -23,31 +23,39 @@ class PaypalCallbackController extends AbstractController
         }
         // $verified = $ipn->verifyIPN();
         // if ($verified) {
-            /*
-             * Process IPN
-             * A list of variables is available here:
-             * https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
-            */
-            $custom = $request->request->get('custom');
-            $custom = explode(',', $custom);
-            $product = $entityManager->getRepository(Entity\Product::class)->find($custom[0]);
-            $user = $entityManager->getRepository(Entity\Buyer::class)->find($custom[1]);
-            if ($product === null) {
-                throw new \Exception("Product #{$product} not found");
-            }
-            if ($user === null) {
-                throw new \Exception("User #{$user} not found");
-            }
+        /*
+         * Process IPN
+         * A list of variables is available here:
+         * https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
+        */
+        $custom = $request->request->get('custom');
+        $custom = explode(',', $custom);
+        $product = $entityManager->getRepository(Entity\Product::class)->find($custom[0]);
+        $user = $entityManager->getRepository(Entity\Buyer::class)->find($custom[1]);
+        if ($product === null) {
+            throw new \Exception("Product #{$product} not found");
+        }
+        if ($user === null) {
+            throw new \Exception("User #{$user} not found");
+        }
 
-            $purchase = new Entity\Purchase;
-            $purchase->setProduct($product);
-            $purchase->setUser($user);
-            $entityManager->persist($purchase);
-            $entityManager->flush();
-            return new JsonResponse(true);
+        $purchase = new Entity\Purchase;
+        $purchase->setProduct($product);
+        $purchase->setUser($user);
+        $entityManager->persist($purchase);
+        $entityManager->flush();
+        // assign all created books to user
+        foreach ($product->getBooks() as $book) {
+            $data = json_encode([
+                'bookID' => $book->getKitabooId(),
+                'userID' => $user->getId()
+            ]);
+            shell_exec('sudo docker run --rm -e ACTION=purchase -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
+        }
+            
+        return new JsonResponse(true);
         // }
 
         // return new JsonResponse(false);
     }
-
 }

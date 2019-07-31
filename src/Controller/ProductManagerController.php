@@ -36,9 +36,10 @@ class ProductManagerController extends AbstractController
         $name = $request->request->get('name');
         $price = $request->request->get('price');
         $image = $request->files->get('image');
+        $description = $request->request->get('description');
 
-        if ($name === null || $price === null || $image === null) {
-            throw new \Exception("Missing fields: need to POST 'name', 'price', 'image'; received " . print_r($request->request->all(), true));
+        if ($name === null || $price === null || $image === null || $description === null) {
+            throw new \Exception("Missing fields: need to POST 'name', 'price', 'image', 'description'; received " . print_r($request->request->all(), true));
         }
 
         $product = new Entity\Product;
@@ -55,6 +56,7 @@ class ProductManagerController extends AbstractController
 
         $product->setName($name);
         $product->setPrice((float) $price);
+        $product->setDescription($description);
         $entityManager->persist($product);
         $entityManager->flush();
         return new JsonResponse(true);

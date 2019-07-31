@@ -60,7 +60,7 @@ class RegistrationController extends AbstractController
 
     private function registerWithKitaboo(Entity\Buyer $user, string $unhashedPassword)
     {
-        $data = [
+        $data = json_encode([
             'user' => [
                 'firstName' => $user->getFirstName(),
                 'lastName' => $user->getLastName(),
@@ -69,6 +69,7 @@ class RegistrationController extends AbstractController
                 'clientUserID' => $user->getId(),
                 'email' => $user->getEmail()
             ]
-        ];
+        ]);
+        shell_exec('sudo docker run --rm -e ACTION=register_user -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
     }
 }

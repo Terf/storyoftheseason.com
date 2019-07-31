@@ -15,28 +15,28 @@ $('#customFile').on('change',function(){
 {% include 'navbar.html.twig' %}
 <div class="container">
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" id="my-library-tab" data-toggle="tab" href="#my-library" role="tab"
                 aria-controls="my-library" aria-selected="true">My Library</a>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload"
                 aria-selected="false">Upload Content</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" id="account-details-tab" data-toggle="tab" href="#account-details" role="tab"
                 aria-controls="account-details" aria-selected="false">Account Details / Subscription</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="referral-tab" data-toggle="tab" href="#referral" role="tab" aria-controls="referral"
                 aria-selected="false">Refer a Friend / Gift Story of the Season</a>
-        </li>
+        </li> -->
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane mt-4 fade" id="my-library" role="tabpanel" aria-labelledby="my-library-tab">
+        <!-- <div class="tab-pane mt-4 fade" id="my-library" role="tabpanel" aria-labelledby="my-library-tab">
             <h3 class="text-center">My Library</h3>
             <p>You have no uploaded content.</p>
-        </div>
+        </div> -->
         <div class="tab-pane mt-4 fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
             <h3 class="text-center mb-2">Upload Content</h3>
             <form action="{{ path('upload-submit') }}" method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('tz').value=Intl.DateTimeFormat().resolvedOptions().timeZone">
@@ -99,12 +99,12 @@ $('#customFile').on('change',function(){
                 </div>
             </form>
         </div>
-        <div class="tab-pane mt-4 fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
+        <!-- <div class="tab-pane mt-4 fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
             <h3 class="text-center">Account Details</h3>
         </div>
         <div class="tab-pane mt-4 fade" id="referral" role="tabpanel" aria-labelledby="referral-tab">
             <p>something else</p>
-        </div>
+        </div> -->
     </div>
 </div>
 {% endblock %}

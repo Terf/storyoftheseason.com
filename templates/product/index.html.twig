@@ -6,12 +6,13 @@ Shop
 {% include 'navbar.html.twig' %}
 <div class="container">
     <div class="row">
-        {% if products is empty %}
-        <p>There are no products.</p>
-        {% endif %}
-        {% for product in products %}
         <div class="col">
             <div class="card-columns">
+                {% if products is empty %}
+                <p>There are no products.</p>
+                {% endif %}
+                {% for product in products %}
+
                 <div class="card" style="width: 18rem;">
                     <img src="/uploads/{{product.image}}" class="card-img-top" alt="{{product.name}}">
                     <div class="card-body">
@@ -29,7 +30,7 @@ Shop
                         {% if isAdmin %}
                         <form action="{{path('product-delete', {id: product.id})}}" method="POST" class="d-inline">
                             <input type="hidden" name="token" value="{{app.request.cookies.get('admin_token')}}">
-                            <input type="submit" value="Delete">
+                            <input type="submit" value="Delete" class="btn btn-danger">
                         </form>
                         {% endif %}
                         <!-- Modal -->
@@ -53,9 +54,9 @@ Shop
                         {% endif %}
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

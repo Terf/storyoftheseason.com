@@ -11,10 +11,10 @@ use App\Entity;
 
 class ProductController extends AbstractController
 {
-    public function shop(EntityManagerInterface $entityManager)
+    public function shop(Request $request, EntityManagerInterface $entityManager)
     {
         if ($request->cookies->has('userToken')) {
-            $admin = $entityManager->getRepository(Entity\User::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
+            $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
             $admin = ($admin === null) ? false : true;
         } else {
             $admin = false;

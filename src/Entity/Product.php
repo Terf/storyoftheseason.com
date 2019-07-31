@@ -48,10 +48,16 @@ class Product
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Coupon", mappedBy="product", orphanRemoval=true)
+     */
+    private $coupons;
+
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
         $this->books = new ArrayCollection();
+        $this->coupons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,6 +171,37 @@ class Product
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Coupon[]
+     */
+    public function getCoupons(): Collection
+    {
+        return $this->coupons;
+    }
+
+    public function addCoupon(Coupon $coupon): self
+    {
+        if (!$this->coupons->contains($coupon)) {
+            $this->coupons[] = $coupon;
+            $coupon->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCoupon(Coupon $coupon): self
+    {
+        if ($this->coupons->contains($coupon)) {
+            $this->coupons->removeElement($coupon);
+            // set the owning side to null (unless already changed)
+            if ($coupon->getProduct() === $this) {
+                $coupon->setProduct(null);
+            }
+        }
 
         return $this;
     }

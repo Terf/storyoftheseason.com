@@ -59,4 +59,16 @@ class ProductManagerController extends AbstractController
         $entityManager->flush();
         return new JsonResponse(true);
     }
+
+    public function delete(Request $request, EntityManagerInterface $entityManager, $id)
+    {
+        $admin = $entityManager->getRepository(Entity\User::class)->findOneBy(['token' => $request->request->get('token')]);
+        if ($admin !== null) {
+            $product = $entityManager->getRepository(Entity\Product::class)->find($id);
+            $entityManager->remove($product);
+            $entityManager->flush();
+            return $this->redirectToRoute('shop');
+        }
+        return new JsonResponse(false);
+    }
 }

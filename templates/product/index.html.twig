@@ -11,28 +11,35 @@ Shop
         {% endif %}
         {% for product in products %}
         <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src="/uploads/{{product.image}}" class="card-img-top" alt="{{product.name}}">
-                <div class="card-body">
-                    <h5 class="card-title">{{product.name}}</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-                        consequatur ut facere facilis laudantium eum, aliquam perspiciatis incidunt soluta quia tenetur
-                        deleniti, reprehenderit, illo dolores tempora nisi ipsam iure expedita.</p>
-                    {% if app.request.cookies.get('user_id') matches '/^\\d+$/' %}
+            <div class="card-columns">
+                <div class="card" style="width: 18rem;">
+                    <img src="/uploads/{{product.image}}" class="card-img-top" alt="{{product.name}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <p class="card-text">{{product.description}}</p>
+                        {% if app.request.cookies.get('user_id') matches '/^\\d+$/' %}
                         <form action="{{ path('buy-now') }}" method="POST">
                             <input type="hidden" name="product" value="{{product.id}}">
                             <input type="hidden" name="user" value="{{ app.request.cookies.get('user_id') }}">
                             <button type="submit" class="btn btn-primary">Buy now</button>
                         </form>
-                    {% else %}
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">Buy now</button>
+                        {% else %}
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#registerModal">Buy now</button>
+                        {% if isAdmin %}
+                        <form action="{{path('product-delete', {id: product.id})}}" method="POST" class="d-inline">
+                            <input type="hidden" name="token" value="{{app.request.cookies.get('admin_token')}}">
+                            <input type="submit" value="Delete">
+                        </form>
+                        {% endif %}
                         <!-- Modal -->
                         <div class="modal fade" id="registerModal" tabindex="-1" role="dialog"
                             aria-labelledby="registerModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="registerModalLabel">Please create an account first</h5>
+                                        <h5 class="modal-title" id="registerModalLabel">Please create an account first
+                                        </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -43,7 +50,8 @@ Shop
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

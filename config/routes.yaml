@@ -63,6 +63,10 @@ product-create:
    path: /admin/product/create
    controller: App\Controller\ProductManagerController::create
    methods: POST
+product-delete:
+   path: /admin/product/{id}/delete
+   controller: App\Controller\ProductManagerController::delete
+   methods: POST
 book-admin:
    path: /admin/books
    controller: App\Controller\BookManagerController::index

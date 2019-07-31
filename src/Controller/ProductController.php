@@ -13,8 +13,15 @@ class ProductController extends AbstractController
 {
     public function shop(EntityManagerInterface $entityManager)
     {
+        if ($request->cookies->has('userToken')) {
+            $admin = $entityManager->getRepository(Entity\User::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
+            $admin = ($admin === null) ? false : true;
+        } else {
+            $admin = false;
+        }
         return $this->render('product/index.html.twig', [
             'products' => $entityManager->getRepository(Entity\Product::class)->findAll(),
+            'isAdmin' => $admin
         ]);
     }
 

@@ -63,7 +63,7 @@ Shop
                         <p class="card-text">{{product.description}}</p>
                         {% if app.request.cookies.get('user_id') matches '/^\\d+$/' %}
                         <form action="{{ path('buy-now') }}" method="POST" data-coupon="{{product.coupons|length}}"
-                            onsubmit="checkForCoupon(event)">
+                            onsubmit="checkForCoupon(event)" class="d-inline">
                             <input type="hidden" name="product" value="{{product.id}}">
                             <input type="hidden" name="user" value="{{ app.request.cookies.get('user_id') }}">
                             <button type="submit" class="btn btn-primary">Buy now</button>
@@ -71,12 +71,12 @@ Shop
                         {% else %}
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal"
                             data-coupon="{{product.coupons|length}}">Buy now</button>
+                        {% endif %}
                         {% if isAdmin %}
                         <form action="{{path('product-delete', {id: product.id})}}" method="POST" class="d-inline">
                             <input type="hidden" name="token" value="{{app.request.cookies.get('admin_token')}}">
                             <input type="submit" value="Delete" class="btn btn-danger">
                         </form>
-                        {% endif %}
                         {% endif %}
                     </div>
                 </div>

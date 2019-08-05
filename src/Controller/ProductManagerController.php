@@ -64,7 +64,7 @@ class ProductManagerController extends AbstractController
 
     public function delete(Request $request, EntityManagerInterface $entityManager, $id)
     {
-        $admin = $entityManager->getRepository(Entity\User::class)->findOneBy(['token' => $request->request->get('token')]);
+        $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->request->get('token')]);
         if ($admin !== null) {
             $product = $entityManager->getRepository(Entity\Product::class)->find($id);
             $entityManager->remove($product);

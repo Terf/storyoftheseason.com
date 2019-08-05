@@ -5,8 +5,16 @@ Bookshelf
 {% block body %}
 <div class="container">
     <h2 class="text-center mt-4 mb-4">Your purchases</h2>
-    {% for purchase in purchases %}
-        <p>{{purchase.product.name}}</p>
-    {% endfor %}
+    <div class="card-columns">
+        {% for purchase in purchases %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{purchase.product.name}}</h5>
+                <p class="card-text">{{purchase.product.description}}</p>
+            </div>
+            <img src="{{purchase.product.image}}" class="card-img-top" alt="{{purchase.product.name}}">
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

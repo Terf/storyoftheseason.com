@@ -49,10 +49,7 @@ class PaypalCallbackController extends AbstractController
         $entityManager->flush();
         // assign all created books to user
         foreach ($product->getBooks() as $book) {
-            $data = json_encode([
-                'bookID' => $book->getKitabooId(),
-                'userID' => $user->getId()
-            ]);
+            $data = "bookID={$book->getKitabooId()}&userID={$user->getId()}";
             shell_exec('sudo docker run --rm -e ACTION=purchase -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
         }
             

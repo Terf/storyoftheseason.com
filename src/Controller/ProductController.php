@@ -55,7 +55,7 @@ class ProductController extends AbstractController
         $query['currency_code'] = 'USD';
         $query['return_url'] = 'https://storyoftheseason.co/user/' . $userId . '/bookshelf';
         $query['cancel_url'] = 'https://storyoftheseason.co?paypal=cancel';
-        $query['notify_url'] = 'https://storyoftheseason.co/webhooks/paypal';
+        $query['ipn_notification_url'] = 'https://storyoftheseason.co/webhooks/paypal';
         $query['custom'] = "{$productId},{$userId}";
 
         $query_string = http_build_query($query);

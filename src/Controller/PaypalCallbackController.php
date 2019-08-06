@@ -30,6 +30,9 @@ class PaypalCallbackController extends AbstractController
         */
         $custom = $request->request->get('custom');
         $custom = explode(',', $custom);
+        if (count($custom) !== 2 || !is_numeric($custom[0]) || !is_numeric($custom[1])) {
+            throw new \Exception("custom field not POSTed correctly");
+        }
         $product = $entityManager->getRepository(Entity\Product::class)->find($custom[0]);
         $user = $entityManager->getRepository(Entity\Buyer::class)->find($custom[1]);
         if ($product === null) {

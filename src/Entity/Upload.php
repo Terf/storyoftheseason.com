@@ -51,6 +51,11 @@ class Upload
      */
     private $message;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Buyer", inversedBy="uploads")
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +141,18 @@ class Upload
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getUser(): ?Buyer
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Buyer $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

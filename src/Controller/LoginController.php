@@ -32,12 +32,22 @@ class LoginController extends AbstractController
             return $this->redirectToRoute('login-form');
         } else {
             if (password_verify($password, $user->getPassword())) {
+                $token = bin2hex(random_bytes(16));
+                $user->setToken($token);
+                $entityManager->merge($user);
+                $entityManager->flush();
                 $response = new RedirectResponse($this->generateUrl('shop'));
-                $response->headers->setCookie(Cookie::create('user_id', $user->getId()));
+                $response->headers->setCookie(Cookie::create('user_token', $token));
                 return $response;
             }
             return $this->redirectToRoute('login-form');
         }
     }
 
+    public function signOut(Request $request)
+    {
+        $response = $this->redirectToRoute('index');
+        $response->headers->clearCookie('user_token');
+        return $response;
+    }
 }

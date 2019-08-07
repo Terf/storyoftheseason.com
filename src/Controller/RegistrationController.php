@@ -42,6 +42,7 @@ class RegistrationController extends AbstractController
         $buyer->setPhone($request->request->get('phone'));
         $buyer->setLocation($location);
         $buyer->setSeller($seller);
+        $buyer->setToken(bin2hex(random_bytes(16)));
 
         $entityManager->persist($location);
         $entityManager->persist($buyer);
@@ -53,7 +54,7 @@ class RegistrationController extends AbstractController
         $purchase = $request->request->get('product');
         if ($purchase !== null) {
             $req = new Request;
-            $req->request->set('user', $buyer->getId());
+            $req->request->set('user', $buyer->getToken());
             $req->request->set('product', $purchase);
             return $this->forward('App\Controller\ProductController::purchase', array(
                 'request'  => $req,

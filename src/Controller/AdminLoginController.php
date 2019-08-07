@@ -43,11 +43,4 @@ class AdminLoginController extends AbstractController
             return $this->redirectToRoute('login-form-admin');
         }
     }
-
-    public function signOut(Request $request)
-    {
-        $response = $this->redirectToRoute('index');
-        $response->headers->clearCookie('user_id');
-        return $response;
-    }
 }

@@ -28,14 +28,20 @@ class ProductController extends AbstractController
     public function purchase(Request $request, EntityManagerInterface $entityManager)
     {
         $productId = $request->request->get('product');
-        $userId = $request->request->get('user');
-        if ($productId === null || $userId === null) {
+        $userToken = $request->request->get('user');
+        if ($productId === null || $userToken === null) {
             throw new \Exception("Missing fields: need to POST 'product', 'user'; received " . print_r($request->request->all(), true));
         }
 
         $product = $entityManager->getRepository(Entity\Product::class)->find($productId);
         if ($product === null) {
             throw new \Exception("Product #{$productId} not found");
+        }
+        $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['token' => $userToken]);
+        if ($user === null) {
+            throw new \Exception("User with token {$userToken} not found");
+        } else {
+            $userId = $user->getId();
         }
 
         $discount = 1;

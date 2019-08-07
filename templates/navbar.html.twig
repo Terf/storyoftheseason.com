@@ -17,7 +17,7 @@
         <a class="nav-link" href="{{ path('upload-form') }}">Upload to your story</a>
       </li>
     </ul>
-    {% if app.request.cookies.get('user_id') == null %}
+    {% if app.request.cookies.get('user_token') == null %}
     <ul class="navbar-nav {% if route == path('login-form') %}active{% endif %}">
       <li class="nav-item float-right">
         <a class="nav-link" href="{{ path('login-form') }}">Login</a>

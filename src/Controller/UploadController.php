@@ -17,7 +17,16 @@ class UploadController extends AbstractController
      */
     public function index()
     {
-        return $this->render('upload/index.html.twig');
+        $user = null;
+        if ($request->cookies->has('user_token')) {
+            $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['token' => $request->cookies->get('user_token')]);
+            if ($user !== null) {
+                $user = $user->getId();
+            }
+        }
+        return $this->render('upload/index.html.twig', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -33,6 +42,7 @@ class UploadController extends AbstractController
         $location = $request->request->get('location');
         $tags = $request->request->get('tags');
         $message = $request->request->get('message');
+        $userId = $request->request->get('user_id'); // optional
 
         if ($file === null || $name === null || $caption === null || $date === null || $location === null || $tags === null || $message === null) {
             throw new \Exception("Missing fields: need to POST 'file', 'name', 'caption', 'date', 'location', 'tags', 'message'; received " . print_r($request->request->all(), true));
@@ -48,6 +58,11 @@ class UploadController extends AbstractController
             }
             $file->move($path, $fn);
             $upload->setFile($fn);
+        }
+
+        $user = $entityManager->getRepository(Entity\Buyer::class)->find($userId);
+        if ($user !== null) {
+            $upload->setUser($user);
         }
 
         $upload->setName($name);

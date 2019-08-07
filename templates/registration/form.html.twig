@@ -63,7 +63,8 @@
     <div class="form-row">
         <div class="col form-group">
             <label for="pass{% if loop.index is defined %}{{loop.index}}{% endif %}">Password</label>
-            <input type="password" class="form-control" placeholder="Password" id="pass{% if loop.index is defined %}{{loop.index}}{% endif %}" name="pass">
+            <input type="password" pattern=".{9,}" required title="9 characters minimum" class="form-control" placeholder="Password" id="pass{% if loop.index is defined %}{{loop.index}}{% endif %}" name="pass">
+            <small class="text-muted">9 characters minimum</small>
         </div>
         <div class="col form-group">
             <label for="phone{% if loop.index is defined %}{{loop.index}}{% endif %}">Phone number</label>

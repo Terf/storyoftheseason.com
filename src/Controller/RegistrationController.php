@@ -18,6 +18,10 @@ class RegistrationController extends AbstractController
 
     public function submit(Request $request, EntityManagerInterface $entityManager)
     {
+        if (strlen($request->request->get('pass')) < 9) {
+            return $this->redirectToRoute('login-form');
+        }
+
         $buyer = new Entity\Buyer;
         $seller = new Entity\Seller;
         $location = new Entity\Location;
@@ -55,7 +59,7 @@ class RegistrationController extends AbstractController
                 'request'  => $req,
             ));
         }
-        return new JsonResponse(true);
+        return $this->redirectToRoute('shop');
     }
 
     private function registerWithKitaboo(Entity\Buyer $user, string $unhashedPassword)

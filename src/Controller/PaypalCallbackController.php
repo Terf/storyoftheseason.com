@@ -57,7 +57,7 @@ class PaypalCallbackController extends AbstractController
         $mailer->send($user->getEmail(), "Story of the Season subscription", "
         <p>Thank you for subscribing to {$product->getName()}.  Our goal is to deeply engage fans, patrons, friends and family, across the country with their favorite team and create a community around your program by telling your team’s story every week throughout the season.</p>
         <p>We will publish the first newsletter on Wednesday after the first game of the season.  When the first newsletter is published, we will email you information and instructions for how to download and login to our website and app to view your Story of the Season weekly newsletters.</p>
-        <p>In the meantime, do you have content that you want to share in the Story of the Season?  You can upload your own content <a href='https://storyoftheseason.co/upload'>by clicking here</a>!</p>
+        <p>In the meantime, do you have content that you want to share in the Story of the Season?  You can upload your own content <a href='https://storyoftheseason.com/upload'>by clicking here</a>!</p>
         <p>We are excited to be telling the {$product->getName()} and for you to be a part of it.  Look for a message from me soon!</p>
         <br/>
         <p>Best,</p>

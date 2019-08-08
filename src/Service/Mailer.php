@@ -65,7 +65,7 @@ class Mailer
                     <tbody>
                     <tr>
                         <td class="title" width="300" style="vertical-align: top; text-align: left; width: 300px; padding: 8px 0; color: #616161; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 14px;" valign="top" align="left">Story of the Season</td>
-                        <td class="subject" width="300" style="vertical-align: top; text-align: right; width: 300px; padding: 8px 0; color: #616161; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 14px;" valign="top" align="right"><a class="strong" href="https://storyoftheseason.co" target="_blank" style="text-decoration: none; color: #616161; font-weight: 700;">storyoftheseason.co</a></td>
+                        <td class="subject" width="300" style="vertical-align: top; text-align: right; width: 300px; padding: 8px 0; color: #616161; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 14px;" valign="top" align="right"><a class="strong" href="https://storyoftheseason.com" target="_blank" style="text-decoration: none; color: #616161; font-weight: 700;">storyoftheseason.com</a></td>
                     </tr>
                     <tr>
                         <td class="border" colspan="2" style="padding: 0; vertical-align: top; font-size: 1px; line-height: 1px; background-color: #e0e0e0; width: 1px;" width="1" valign="top" bgcolor="#e0e0e0">&nbsp;</td>
@@ -114,7 +114,7 @@ class Mailer
                         </td>
                         <td class="subscription" width="300" style="padding: 0; vertical-align: bottom; width: 300px; padding-top: 8px; margin-bottom: 16px; text-align: right;" valign="bottom" align="right">
                             <div class="logo-image">
-                                <a href="https://storyoftheseason.co" target="_blank" style="text-decoration: none; color: #616161;"><img src="https://storyoftheseason.co/images/logo.jpg" alt="Story of the Season logo" width="70" height="70" style="border: 0; -ms-interpolation-mode: bicubic;"></a>
+                                <a href="https://storyoftheseason.com" target="_blank" style="text-decoration: none; color: #616161;"><img src="https://storyoftheseason.com/images/logo.jpg" alt="Story of the Season logo" width="70" height="70" style="border: 0; -ms-interpolation-mode: bicubic;"></a>
                             </div>
                         </td>
                     </tr>
@@ -128,20 +128,20 @@ class Mailer
             $mail = new PHPMailer(true);
             $mail->SMTPDebug = 0;
             $mail->isSMTP();
-            $mail->Host = 'mail.storyoftheseason.co';
+            $mail->Host = 'mail.storyoftheseason.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'chris@storyoftheseason.co';
+            $mail->Username = 'chris@storyoftheseason.com';
             $mail->Password = getenv('MAILER_PASSWORD');
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
             $mail->CharSet = 'UTF-8';
-            $mail->setFrom('chris@storyoftheseason.co', 'Story of the season');
+            $mail->setFrom('chris@storyoftheseason.com', 'Story of the season');
             $mail->addAddress($recipient);
             $mail->Subject = $subject;
             $mail->isHTML(true);
             $mail->Body = $html;
             //This should be the same as the domain of your From address
-            $mail->DKIM_domain = 'storyoftheseason.co';
+            $mail->DKIM_domain = 'storyoftheseason.com';
             //Path to your private key:
             $mail->DKIM_private = '/opendkim/mail.private';
             //Set this to your own selector

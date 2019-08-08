@@ -5,10 +5,10 @@ Upload your Story
 {% block javascripts %}
 {{ parent() }}
 <script>
-$('#customFile').on('change',function(){
-    var fileName = $(this).val();
-    $('#file-name').text('You selected ' + fileName.replace(/^.*\\/, ""));
-});
+    $('#customFile').on('change', function () {
+        var fileName = $(this).val();
+        $('#file-name').text('You selected ' + fileName.replace(/^.*\\/, ""));
+    });
 </script>
 {% endblock %}
 {% block body %}
@@ -20,8 +20,8 @@ $('#customFile').on('change',function(){
                 aria-controls="my-library" aria-selected="true">My Library</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload"
-                aria-selected="false">Upload Content</a>
+            <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
+                aria-controls="upload" aria-selected="false">Upload Content</a>
         </li>
         <!-- <li class="nav-item">
             <a class="nav-link" id="account-details-tab" data-toggle="tab" href="#account-details" role="tab"
@@ -35,11 +35,27 @@ $('#customFile').on('change',function(){
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane mt-4 fade" id="my-library" role="tabpanel" aria-labelledby="my-library-tab">
             <h3 class="text-center">My Library</h3>
+            {% if library == null or library|length == 0%}
             <p>You have no uploaded content.</p>
+            {% else %}
+            {% for item in library %}
+            <div class="card-columns">
+                <div class="card mb-1">
+                    <img src="/uploads/{{item.file}}" class="card-img-top" alt="{{item.name}}">
+                    <div class="card-body">
+                      <h5 class="card-title">{{item.name}}</h5>
+                      <p class="card-text">{{item.caption}}</p>
+                      <p class="card-text"><small class="text-muted">Taken {{item.date|date("F j, Y, g:i a")}}</small></p>
+                    </div>
+                  </div>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
         <div class="tab-pane mt-4 fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
             <h3 class="text-center mb-2">Upload Content</h3>
-            <form action="{{ path('upload-submit') }}" method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('tz').value=Intl.DateTimeFormat().resolvedOptions().timeZone">
+            <form action="{{ path('upload-submit') }}" method="POST" enctype="multipart/form-data"
+                onsubmit="document.getElementById('tz').value=Intl.DateTimeFormat().resolvedOptions().timeZone">
                 <div class="form-row">
                     <div class="col form-group">
                         <div class="custom-file">
@@ -67,8 +83,7 @@ $('#customFile').on('change',function(){
                     </div>
                     <div class="col form-group">
                         <label for="location">Location taken</label>
-                        <input type="text" class="form-control" placeholder="Location" id="location"
-                            name="location">
+                        <input type="text" class="form-control" placeholder="Location" id="location" name="location">
                     </div>
                 </div>
                 <div class="form-row">
@@ -78,8 +93,7 @@ $('#customFile').on('change',function(){
                     </div>
                     <div class="col form-group">
                         <label for="message">Other info / message</label>
-                        <input type="text" class="form-control" placeholder="Message" id="message"
-                            name="message">
+                        <input type="text" class="form-control" placeholder="Message" id="message" name="message">
                     </div>
                 </div>
                 <div class="form-row">
@@ -87,7 +101,8 @@ $('#customFile').on('change',function(){
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="terms" name="terms"
                                 onclick="document.getElementById('upload-btn').toggleAttribute('disabled');">
-                            <label class="custom-control-label" for="terms">Waiver allowing storyIt to use content/waiver of liability</label>
+                            <label class="custom-control-label" for="terms">Waiver allowing storyIt to use
+                                content/waiver of liability</label>
                         </div>
                     </div>
                 </div>

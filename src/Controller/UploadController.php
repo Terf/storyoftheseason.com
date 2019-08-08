@@ -9,23 +9,28 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity;
+use \DateTime;
+use \DateTimeZone;
 
 class UploadController extends AbstractController
 {
     /**
      * upload-form
      */
-    public function index()
+    public function index(Request $request, EntityManagerInterface $entityManager)
     {
         $user = null;
+        $myLibrary = null;
         if ($request->cookies->has('user_token')) {
             $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['token' => $request->cookies->get('user_token')]);
             if ($user !== null) {
+                $myLibrary = $user->getUploads();
                 $user = $user->getId();
             }
         }
         return $this->render('upload/index.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'library' => $myLibrary
         ]);
     }
 

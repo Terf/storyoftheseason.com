@@ -126,7 +126,7 @@ class Mailer
 
         if (filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
             $mail = new PHPMailer(true);
-            $mail->SMTPDebug = 2;
+            $mail->SMTPDebug = 0;
             $mail->isSMTP();
             $mail->Host = 'mail.storyoftheseason.co';
             $mail->SMTPAuth = true;

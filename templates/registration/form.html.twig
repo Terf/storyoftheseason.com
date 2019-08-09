@@ -74,8 +74,7 @@
     <div class="form-row coupon-row">
         <div class="col form-group">
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="terms{% if loop.index is defined %}{{loop.index}}{% endif %}" name="terms"
-                    onclick="document.getElementById('register-btn{% if loop.index is defined %}{{loop.index}}{% endif %}').toggleAttribute('disabled');">
+                <input type="checkbox" class="custom-control-input" id="terms{% if loop.index is defined %}{{loop.index}}{% endif %}" name="terms">
                 <label class="custom-control-label" for="terms{% if loop.index is defined %}{{loop.index}}{% endif %}">By purchasing a subscription and creating an account
                     with storyit, you agree to the terms and conditions.</label>
             </div>

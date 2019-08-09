@@ -67,6 +67,10 @@ product-delete:
    path: /admin/product/{id}/delete
    controller: App\Controller\ProductManagerController::delete
    methods: POST
+product-edit:
+   path: /admin/product/edit
+   controller: App\Controller\ProductManagerController::edit
+   methods: POST
 book-admin:
    path: /admin/books
    controller: App\Controller\BookManagerController::index

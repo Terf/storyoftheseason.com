@@ -13,7 +13,7 @@ class ProductController extends AbstractController
 {
     public function shop(Request $request, EntityManagerInterface $entityManager)
     {
-        if ($request->cookies->has('userToken')) {
+        if ($request->cookies->has('admin_token')) {
             $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
             $admin = ($admin === null) ? false : true;
         } else {

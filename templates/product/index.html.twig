@@ -17,6 +17,26 @@ Shop
         }
         e.target.submit();
     }
+    function validateEmail(input) {
+        console.log(input.value);
+        $.ajax({
+			url: '{{ path("validate-email") }}',
+            data: {email: input.value},
+			type: "GET",
+			success: function (res) {
+                if (res === false) {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                } else {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                }
+			},
+			error: function (xhr, status, error) {
+				console.log(xhr, status, error);
+			}
+		});
+    }
     $('#registerModal').on('show.bs.modal', function (event) {
         $('#coupon-col').remove();
         var button = $(event.relatedTarget);

@@ -1,82 +1,101 @@
-
-    <div class="form-row">
-        <div class="col form-group">
-            <label for="fname{% if loop.index is defined %}{{loop.index}}{% endif %}">First name</label>
-            <input type="text" class="form-control" placeholder="First name" id="fname{% if loop.index is defined %}{{loop.index}}{% endif %}" name="fname">
-        </div>
-        <div class="col form-group">
-            <label for="lname{% if loop.index is defined %}{{loop.index}}{% endif %}">Last name</label>
-            <input type="text" class="form-control" placeholder="Last name" id="lname{% if loop.index is defined %}{{loop.index}}{% endif %}" name="lname">
+<div class="form-row">
+    <div class="col form-group">
+        <label for="fname{% if loop.index is defined %}{{loop.index}}{% endif %}">First name</label>
+        <input type="text" class="form-control" placeholder="First name"
+            id="fname{% if loop.index is defined %}{{loop.index}}{% endif %}" name="fname">
+    </div>
+    <div class="col form-group">
+        <label for="lname{% if loop.index is defined %}{{loop.index}}{% endif %}">Last name</label>
+        <input type="text" class="form-control" placeholder="Last name"
+            id="lname{% if loop.index is defined %}{{loop.index}}{% endif %}" name="lname">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col form-group">
+        <label for="addr{% if loop.index is defined %}{{loop.index}}{% endif %}">Address</label>
+        <input type="text" class="form-control" placeholder="Address"
+            id="addr{% if loop.index is defined %}{{loop.index}}{% endif %}" name="addr">
+    </div>
+    <div class="col form-group">
+        <label for="zip{% if loop.index is defined %}{{loop.index}}{% endif %}">Zip code</label>
+        <input type="text" class="form-control" placeholder="Zip code"
+            id="zip{% if loop.index is defined %}{{loop.index}}{% endif %}" name="zip">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col form-group">
+        <label for="state{% if loop.index is defined %}{{loop.index}}{% endif %}">State</label>
+        <input type="text" class="form-control" placeholder="State"
+            id="state{% if loop.index is defined %}{{loop.index}}{% endif %}" name="state">
+    </div>
+    <div class="col form-group">
+        <label for="country{% if loop.index is defined %}{{loop.index}}{% endif %}">Country</label>
+        <input type="text" class="form-control" placeholder="Country"
+            id="country{% if loop.index is defined %}{{loop.index}}{% endif %}" name="country">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col form-group">
+        <label for="relationship{% if loop.index is defined %}{{loop.index}}{% endif %}">Relationship to program</label>
+        <select class="custom-select" name="relationship"
+            id="relationship{% if loop.index is defined %}{{loop.index}}{% endif %}">
+            <option selected>Relationship to program</option>
+            <option value="1">Parent</option>
+            <option value="2">Player</option>
+            <option value="3">Alumni</option>
+            <option value="3">Student</option>
+        </select>
+    </div>
+    <div class="col form-group">
+        <label for="email{% if loop.index is defined %}{{loop.index}}{% endif %}">Email</label>
+        <input type="email" class="form-control" placeholder="Email"
+            id="email{% if loop.index is defined %}{{loop.index}}{% endif %}" name="email"
+            onchange="validateEmail(this)">
+        <div class="invalid-feedback">
+            This email address already has an account. Would you like to <a href="{{path('login-form')}}">login</a>?
         </div>
     </div>
-    <div class="form-row">
-        <div class="col form-group">
-            <label for="addr{% if loop.index is defined %}{{loop.index}}{% endif %}">Address</label>
-            <input type="text" class="form-control" placeholder="Address" id="addr{% if loop.index is defined %}{{loop.index}}{% endif %}" name="addr">
-        </div>
-        <div class="col form-group">
-            <label for="zip{% if loop.index is defined %}{{loop.index}}{% endif %}">Zip code</label>
-            <input type="text" class="form-control" placeholder="Zip code" id="zip{% if loop.index is defined %}{{loop.index}}{% endif %}" name="zip">
+</div>
+<div class="form-row">
+    <div class="col form-group">
+        <label for="student{% if loop.index is defined %}{{loop.index}}{% endif %}">Name of student who sold
+            subscription</label>
+        <input type="text" class="form-control" placeholder="Name of student"
+            id="student{% if loop.index is defined %}{{loop.index}}{% endif %}" name="student">
+    </div>
+    <div class="col form-group">
+        <label for="studentRelationship{% if loop.index is defined %}{{loop.index}}{% endif %}">Student
+            relationship</label>
+        <select class="custom-select" name="studentRelationship"
+            id="studentRelationship{% if loop.index is defined %}{{loop.index}}{% endif %}">
+            <option selected>Relationship to program</option>
+            <option value="1">Player</option>
+            <option value="3">Band member</option>
+            <option value="3">Cheerleader</option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col form-group">
+        <label for="pass{% if loop.index is defined %}{{loop.index}}{% endif %}">Password</label>
+        <input type="password" pattern=".{9,}" required title="9 characters minimum" class="form-control"
+            placeholder="Password" id="pass{% if loop.index is defined %}{{loop.index}}{% endif %}" name="pass">
+        <small class="text-muted">9 characters minimum</small>
+    </div>
+    <div class="col form-group">
+        <label for="phone{% if loop.index is defined %}{{loop.index}}{% endif %}">Phone number</label>
+        <input type="text" class="form-control" placeholder="Phone number"
+            id="phone{% if loop.index is defined %}{{loop.index}}{% endif %}" name="phone">
+    </div>
+</div>
+<div class="form-row coupon-row">
+    <div class="col form-group">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input"
+                id="terms{% if loop.index is defined %}{{loop.index}}{% endif %}" name="terms">
+            <label class="custom-control-label" for="terms{% if loop.index is defined %}{{loop.index}}{% endif %}">By
+                purchasing a subscription and creating an account
+                with storyit, you agree to the terms and conditions.</label>
         </div>
     </div>
-    <div class="form-row">
-        <div class="col form-group">
-            <label for="state{% if loop.index is defined %}{{loop.index}}{% endif %}">State</label>
-            <input type="text" class="form-control" placeholder="State" id="state{% if loop.index is defined %}{{loop.index}}{% endif %}" name="state">
-        </div>
-        <div class="col form-group">
-            <label for="country{% if loop.index is defined %}{{loop.index}}{% endif %}">Country</label>
-            <input type="text" class="form-control" placeholder="Country" id="country{% if loop.index is defined %}{{loop.index}}{% endif %}" name="country">
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col form-group">
-            <label for="relationship{% if loop.index is defined %}{{loop.index}}{% endif %}">Relationship to program</label>
-            <select class="custom-select" name="relationship" id="relationship{% if loop.index is defined %}{{loop.index}}{% endif %}">
-                <option selected>Relationship to program</option>
-                <option value="1">Parent</option>
-                <option value="2">Player</option>
-                <option value="3">Alumni</option>
-                <option value="3">Student</option>
-            </select>
-        </div>
-        <div class="col form-group">
-            <label for="email{% if loop.index is defined %}{{loop.index}}{% endif %}">Email</label>
-            <input type="email" class="form-control" placeholder="Email" id="email{% if loop.index is defined %}{{loop.index}}{% endif %}" name="email">
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col form-group">
-            <label for="student{% if loop.index is defined %}{{loop.index}}{% endif %}">Name of student who sold subscription</label>
-            <input type="text" class="form-control" placeholder="Name of student" id="student{% if loop.index is defined %}{{loop.index}}{% endif %}" name="student">
-        </div>
-        <div class="col form-group">
-            <label for="studentRelationship{% if loop.index is defined %}{{loop.index}}{% endif %}">Student relationship</label>
-            <select class="custom-select" name="studentRelationship" id="studentRelationship{% if loop.index is defined %}{{loop.index}}{% endif %}">
-                <option selected>Relationship to program</option>
-                <option value="1">Player</option>
-                <option value="3">Band member</option>
-                <option value="3">Cheerleader</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col form-group">
-            <label for="pass{% if loop.index is defined %}{{loop.index}}{% endif %}">Password</label>
-            <input type="password" pattern=".{9,}" required title="9 characters minimum" class="form-control" placeholder="Password" id="pass{% if loop.index is defined %}{{loop.index}}{% endif %}" name="pass">
-            <small class="text-muted">9 characters minimum</small>
-        </div>
-        <div class="col form-group">
-            <label for="phone{% if loop.index is defined %}{{loop.index}}{% endif %}">Phone number</label>
-            <input type="text" class="form-control" placeholder="Phone number" id="phone{% if loop.index is defined %}{{loop.index}}{% endif %}" name="phone">
-        </div>
-    </div>
-    <div class="form-row coupon-row">
-        <div class="col form-group">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="terms{% if loop.index is defined %}{{loop.index}}{% endif %}" name="terms">
-                <label class="custom-control-label" for="terms{% if loop.index is defined %}{{loop.index}}{% endif %}">By purchasing a subscription and creating an account
-                    with storyit, you agree to the terms and conditions.</label>
-            </div>
-        </div>
-    </div>
+</div>

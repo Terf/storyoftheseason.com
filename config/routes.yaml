@@ -34,6 +34,10 @@ registration-submit:
    path: /register/submit
    controller: App\Controller\RegistrationController::submit
    methods: POST
+validate-email:
+   path: /register/validate/email
+   controller: App\Controller\RegistrationController::validateEmail
+   methods: GET
 login-form:
    path: /login
    controller: App\Controller\LoginController::index

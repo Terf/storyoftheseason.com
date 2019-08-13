@@ -51,6 +51,23 @@ sign-out:
    controller: App\Controller\LoginController::signOut
    methods: GET
 
+reset-password-form:
+   path: /reset-password
+   controller: App\Controller\ResetPasswordController::index
+   methods: GET
+send-reset-email:
+   path: /reset-password/send
+   controller: App\Controller\ResetPasswordController::sendResetEmail
+   methods: POST
+new-password:
+   path: /new-password
+   controller: App\Controller\ResetPasswordController::newPassword
+   methods: GET
+new-password-submit:
+   path: /new-password/submit
+   controller: App\Controller\ResetPasswordController::resetPassword
+   methods: POST
+
 login-form-admin:
    path: /admin/login
    controller: App\Controller\AdminLoginController::index

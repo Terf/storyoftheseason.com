@@ -6,7 +6,7 @@ Shop
 {{parent()}}
 <script>
     // {% include 'registration/validation.js.twig' %}
-    
+
     function checkForCoupon(e) {
         e.preventDefault();
         var form = $(e.target);
@@ -144,4 +144,5 @@ Shop
         </div>
     </div>
 </div>
+{% include 'footer.html.twig' %}
 {% endblock %}

@@ -55,7 +55,8 @@ border-top-right-radius: 0;
     <label for="password" class="sr-only">Password</label>
     <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; {{ "now"|date("Y") }}</p>
+    <p style="font-size: 0.9rem" class="mt-3 mb-2 text-muted">Forgot your password? <a href="{{path('reset-password-form')}}">Request</a> a reset link.</p>
+    <p class="text-muted">&copy; {{ "now"|date("Y") }}</p>
 </form>
 
 {% endblock %}

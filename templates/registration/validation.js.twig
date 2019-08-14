@@ -1,0 +1,35 @@
+//
+var validEmail = false;
+function validateEmail(input) {
+    $.ajax({
+        url: '{{ path("validate-email") }}',
+        data: { email: input.value },
+        type: "GET",
+        success: function (res) {
+            if (res === false) {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+                validEmail = false;
+            } else {
+                input.classList.remove('is-invalid');
+                input.classList.add('is-valid');
+                validEmail = true;
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr, status, error);
+        }
+    });
+}
+window.addEventListener('load', function () {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false || validEmail === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+}, false);

@@ -34,6 +34,10 @@ registration-submit:
    path: /register/submit
    controller: App\Controller\RegistrationController::submit
    methods: POST
+validate-email:
+   path: /register/validate/email
+   controller: App\Controller\RegistrationController::validateEmail
+   methods: GET
 login-form:
    path: /login
    controller: App\Controller\LoginController::index
@@ -46,6 +50,23 @@ sign-out:
    path: /sign-out
    controller: App\Controller\LoginController::signOut
    methods: GET
+
+reset-password-form:
+   path: /reset-password
+   controller: App\Controller\ResetPasswordController::index
+   methods: GET
+send-reset-email:
+   path: /reset-password/send
+   controller: App\Controller\ResetPasswordController::sendResetEmail
+   methods: POST
+new-password:
+   path: /new-password
+   controller: App\Controller\ResetPasswordController::newPassword
+   methods: GET
+new-password-submit:
+   path: /new-password/submit
+   controller: App\Controller\ResetPasswordController::resetPassword
+   methods: POST
 
 login-form-admin:
    path: /admin/login
@@ -66,6 +87,10 @@ product-create:
 product-delete:
    path: /admin/product/{id}/delete
    controller: App\Controller\ProductManagerController::delete
+   methods: POST
+product-edit:
+   path: /admin/product/edit
+   controller: App\Controller\ProductManagerController::edit
    methods: POST
 book-admin:
    path: /admin/books

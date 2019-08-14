@@ -64,10 +64,26 @@ class ProductManagerController extends AbstractController
 
     public function delete(Request $request, EntityManagerInterface $entityManager, $id)
     {
-        $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->request->get('token')]);
+        $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->request->get('admin_token')]);
         if ($admin !== null) {
             $product = $entityManager->getRepository(Entity\Product::class)->find($id);
             $entityManager->remove($product);
+            $entityManager->flush();
+            return $this->redirectToRoute('shop');
+        }
+        return new JsonResponse(false);
+    }
+
+    public function edit(Request $request, EntityManagerInterface $entityManager)
+    {
+        $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
+        if ($admin !== null) {
+            $product = $entityManager->getRepository(Entity\Product::class)->find($request->request->get('id'));
+            $product->setName($request->request->get('name'));
+            $product->setDescription($request->request->get('description'));
+            $product->setPrice($request->request->get('price'));
+            // todo: edit product image
+            $entityManager->merge($product);
             $entityManager->flush();
             return $this->redirectToRoute('shop');
         }

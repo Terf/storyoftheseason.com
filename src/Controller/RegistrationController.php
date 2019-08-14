@@ -11,11 +11,18 @@ use App\Entity;
 
 class RegistrationController extends AbstractController
 {
+
+    /**
+     * registration-form
+     */
     public function index()
     {
         return $this->render('registration/index.html.twig');
     }
 
+    /**
+     * registration-submit
+     */
     public function submit(Request $request, EntityManagerInterface $entityManager)
     {
         if (strlen($request->request->get('pass')) < 9) {
@@ -61,6 +68,15 @@ class RegistrationController extends AbstractController
             ));
         }
         return $this->redirectToRoute('shop');
+    }
+
+    /**
+     * validate-email
+     */
+    public function validateEmail(Request $request, EntityManagerInterface $entityManager)
+    {
+        $user = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['email' => $request->query->get('email')]);
+        return new JsonResponse(($user === null) ? true : false);
     }
 
     private function registerWithKitaboo(Entity\Buyer $user, string $unhashedPassword)

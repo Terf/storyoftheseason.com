@@ -109,7 +109,7 @@ class Mailer
                                 Story of the Season<br>
                                 </p>
                             <p style="margin-top: 0; margin-bottom: 8px; color: #616161; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 18px;">
-                                Support: <a class="strong" href="mailto:dashboard@oberlin.edu" target="_blank" style="text-decoration: none; color: #616161; font-weight: 700;">chris@storyoftheseason.com</a>
+                                Support: <a class="strong" href="mailto:chris@storyoftheseason.com" target="_blank" style="text-decoration: none; color: #616161; font-weight: 700;">chris@storyoftheseason.com</a>
                             </p>
                         </td>
                         <td class="subscription" width="300" style="padding: 0; vertical-align: bottom; width: 300px; padding-top: 8px; margin-bottom: 16px; text-align: right;" valign="bottom" align="right">

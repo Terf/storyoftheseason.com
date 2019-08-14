@@ -11,6 +11,15 @@ margin-bottom: 0px !important;
 background: url(images/bg.jpeg) no-repeat center center fixed;
 background-size: cover;
 }
+.spacer {
+clear:both;
+height:10vh
+}
+@media (max-width: 768px) {
+    .spacer {
+        display:none;
+    }
+}
 {% endblock %}
 {% block javascripts %}
 {{parent()}}
@@ -44,14 +53,15 @@ background-size: cover;
             <h1 class="text-uppercase text-center">Coaches, build your program</h1>
         </div>
     </div>
+
     <div class="row mt-2 mb-5">
         <div class="col-sm-6">
-            <img src="/images/Weekly_Newsletter.png" class="align-self-center mr-3" alt="Weekly newsletter"
-                style="max-width:70%">
+            <img src="/images/Weekly_Newsletter.png" alt="Weekly newsletter"
+                style="width:80%;display:block;margin:0 auto">
         </div>
         <div class="col-sm-6" style="margin-bottom: 15vh">
-            <div style="margin: 0 auto;width: 80%">
-                <h2>Weekly newsletter</h2>
+            <div style="margin: 0 auto;width: 80%;display:block">
+                <h2 class="mt-2">Weekly newsletter</h2>
                 <h4>Let fans follow your team from anywhere</h4>
                 <p class="mb-0">Each week of the season, we aggregate all video highlights, pictures,
                     interviews, articles, behind-the-scenes content and more and publish a comprehensive game recap
@@ -59,114 +69,124 @@ background-size: cover;
                     alumni and fans.</p>
             </div>
         </div>
+    </div>
+    <div class="row flex-column-reverse flex-md-row">
         <div class="col-sm-6" style="margin-bottom: 15vh">
-            <div style="margin: 0 auto;width: 80%">
-                <h2>Digital yearbook</h2>
+            <div style="margin: 0 auto;width: 80%;display:block">
+                <h2 class="mt-2">Digital yearbook</h2>
                 <h4>All your team&apos;s memories in one place</h4>
                 <p class="mb-0">At the end of the Season, we publish each a full, digital yearbook so your team
                     and fans can remember every moment of the season and share it on any device!</p>
             </div>
         </div>
-        <div class="col-sm-6" style="margin-bottom: 15vh">
-            <img src="/images/digital_yearbook.png" class="align-self-center mr-3"
-                alt="Digital yearbook" style="max-width:70%;float: right;"></div>
-        <div class="col-sm-6" style="margin-bottom: 15vh">
-            <img src="/images/recruiting_tool.png" class="align-self-center mr-3" alt="Recruiting tool"
-                style="max-width:70%">
+        <div class="col-sm-6">
+            <img src="/images/digital_yearbook.png" alt="Digital yearbook"
+                style="width:80%;display:block;margin:0 auto;">
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <img src="/images/recruiting_tool.png" alt="Recruiting tool" style="width:80%;display:block;margin:0 auto">
         </div>
         <div class="col-sm-6" style="margin-bottom: 15vh">
-            <div style="margin: 0 auto;width: 80%">
-                <h2>Recruiting tool</h2>
+            <div style="margin: 0 auto;width: 80%;display:block">
+                <h2 class="mt-2">Recruiting tool</h2>
                 <h4>Engage recruits and share your story</h4>
                 <p class="mb-0">Each week our newsletters go straight to your recruits - giving them a unique
                     look into your program and a helping you stand out.</p>
             </div>
         </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="row flex-column-reverse flex-md-row">
         <div class="col-sm-6" style="margin-bottom: 15vh">
             <div style="margin: 0 auto;width: 80%;">
-                <h2>Fundraiser</h2>
+                <h2 class="mt-2">Fundraiser</h2>
                 <h4>Raise money for your program</h4>
                 <p class="mb-0">Financially support your program by giving your fans and supporters a way to be
                     closer to your program! We work with your program to sell subscriptions and raise money - all
                     while bringing your biggest fans to your program.</p>
             </div>
         </div>
+        <div class="col-sm-6">
+            <img src="/images/fundraiser.png" alt="Fundraiser" style="width:80%;display:block;margin:0 auto;">
+        </div>
+    </div>
+    <div class="row mb-5 mt-5" style="margin:0 auto">
+        <div class="col">
+            <h2 class="text-uppercase">Fans, follow your team and become part of the story</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <img src="/images/nkbhg.png" style="width:80%;display:block;margin:0 auto">
+        </div>
         <div class="col-sm-6" style="margin-bottom: 15vh">
-            <img src="/images/fundraiser.png" class="align-self-center mr-3" alt="Fundraiser" style="max-width:70%;float: right">
-        </div>
-    </div>
-    <div class="row mb-5">
-        <div class="col">
-            <h2 class="text-uppercase text-center">Fans, follow your team and become part of the story</h2>
-        </div>
-    </div>
-    <div class="row mb-5">
-        <div class="col">
-            <div class="media">
-                <img src="/images/nkbhg.png" class="mr-3 img-fluid" style="width: 30%;min-width: 100px;">
-                <div class="media-body p-4">
-                    <h2 class="mt-0 text-warning" style="text-decoration: underline">Follow your team</h2>
-                    <h5 class="mt-0">Recap all the action from anywhere</h5>
-                    <p class="text-secondary">Story of the Season is the best way to follow your team or player week to
-                        week. With interactive game recap newsletters published after every game every moment and memory
-                        worth sharing is at your fingertips from preseason to postseason</p>
-                </div>
+            <div style="margin: 0 auto;width: 80%;display:block">
+                <h2 class="mt-2">Follow your team</h2>
+                <h4>Recap all the action from anywhere</h4>
+                <p class="mb-0">Story of the Season is the best way to follow your team or player week to week. With
+                    interactive game recap newsletters published after every game every moment and memory worth sharing
+                    is at your fingertips from preseason to postseason.</p>
             </div>
         </div>
     </div>
-    <div class="row mb-5">
-        <div class="col">
-            <div class="media">
-                <div class="media-body p-4">
-                    <h2 class="mt-0 text-warning" style="text-decoration: underline">Share content</h2>
-                    <h5 class="mt-0">Tell you side of the Story</h5>
-                    <p class="text-secondary">Story of the Season is more than just game highlights, photos and
-                        articles. We give fans a way to tell their story point by uploading everything from tailgate
-                        photos, to videos from the stands, to intimate interviews with players after the game. We then
-                        published them in the newsletter!</p>
-                </div>
-                <img src="/images/uploadcontent.png" class="mr-3 img-fluid" style="width: 30%;min-width: 100px;">
+    <div class="spacer"></div>
+    <div class="row flex-column-reverse flex-md-row">
+        <div class="col-sm-6" style="margin-bottom: 15vh">
+            <div style="margin: 0 auto;width: 80%;">
+                <h2 class="mt-2">Share content</h2>
+                <h4>Tell you side of the Story</h4>
+                <p class="mb-0">Story of the Season is more than just game highlights, photos and
+                    articles. We give fans a way to tell their story point by uploading everything from tailgate
+                    photos, to videos from the stands, to intimate interviews with players after the game. We
+                    then published them in the newsletter!</p>
             </div>
+        </div>
+        <div class="col-sm-6">
+            <img src="/images/uploadcontent.png" style="width:80%;display:block;margin:0 auto;">
         </div>
     </div>
 </div>
-<div class="jumbotron mb-0">
+<div class="jumbotron mb-0 mt-5">
     <div class="container">
         <div class="row">
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/oc.jpg" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/forestersLFbw.gif" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/chi.jpg" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/images.png" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/iwu.png" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/kzoo.jpg" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/MeritBadges-Athletics.png" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/milton.png" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/Rhodes.png" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/tuftsjumbos.gif" alt="" class="img-fluid">
             </div>
-            <div class="col-1">
+            <div class="col-lg-1 col-md-2 col-sm-4 mb-4">
                 <img src="/images/logos/washu.png" alt="" class="img-fluid">
             </div>
         </div>
     </div>
 </div>
+{% include 'footer.html.twig' %}
 {% endblock %}

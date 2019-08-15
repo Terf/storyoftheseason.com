@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
     public function submit(Request $request, EntityManagerInterface $entityManager)
     {
         if (strlen($request->request->get('pass')) < 9) {
-            return $this->redirectToRoute('login-form');
+            return $this->redirectToRoute('registration-form');
         }
 
         $buyer = new Entity\Buyer;
@@ -63,11 +63,15 @@ class RegistrationController extends AbstractController
             $req = new Request;
             $req->request->set('user', $buyer->getToken());
             $req->request->set('product', $purchase);
-            return $this->forward('App\Controller\ProductController::purchase', array(
+            $response = $this->forward('App\Controller\ProductController::purchase', [
                 'request'  => $req,
-            ));
+            ]);
+            $response->headers->setCookie(Cookie::create('user_token', $token));
+            return $response;
         }
-        return $this->redirectToRoute('shop');
+        $response = new RedirectResponse($this->generateUrl('shop'));
+        $response->headers->setCookie(Cookie::create('user_token', $token));
+        return $response;
     }
 
     /**

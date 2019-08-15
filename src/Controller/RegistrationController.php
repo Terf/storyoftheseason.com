@@ -29,6 +29,17 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('registration-form');
         }
 
+        $alreadyExists = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['email' => $request->request->get('email')]);
+        if ($alreadyExists !== null) {
+            $req = new Request;
+            $req->request->set('email', $request->request->get('email'));
+            $req->request->set('password', $request->request->get('pass'));
+            $response = $this->forward('App\Controller\LoginController::submit', [
+                'request'  => $req,
+            ]);
+            return $response;
+        }
+
         $buyer = new Entity\Buyer;
         $seller = new Entity\Seller;
         $location = new Entity\Location;

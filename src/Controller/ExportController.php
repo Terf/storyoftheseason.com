@@ -16,27 +16,27 @@ class ExportController extends AbstractController
         if ($request->cookies->has('admin_token')) {
             $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
             if ($admin !== null) {
-                $rows = ["first,last,address,zip,state,country,seller_name,seller_type,phone,email,type,purchased_product,product_price"];
+                $rows = ['"first";"last";"address";"zip";"state";"country";"seller_name";"seller_type";"phone";"email";"type";"purchased_product";"product_price"'];
                 $repository = $entityManager->getRepository(Entity\Purchase::class);
-                foreach ($repository->findBy([], ['product_id' => 'ASC']) as $purchase) {
+                foreach ($repository->findBy([], ['product' => 'ASC']) as $purchase) {
                     $user = $purchase->getUser();
                     $product = $purchase->getProduct();
                     $location = $user->getLocation();
                     $seller = $user->getSeller();
-                    $rows[] = implode(',', [
-                        $user->getFirstName(),
-                        $user->getLastName(),
-                        $location->getAddress(),
-                        $location->getZip(),
-                        $location->getState(),
-                        $location->getCountry(),
-                        $seller->getName(),
-                        $seller->getType(),
-                        $user->getPhone(),
-                        $user->getEmail(),
-                        $user->getType(),
-                        $product->getName(),
-                        $product->getPrice()
+                    $rows[] = implode(';', [
+                        "\"{$user->getFirstName()}\"",
+                        "\"{$user->getLastName()}\"",
+                        "\"{$location->getAddress()}\"",
+                        "\"{$location->getZip()}\"",
+                        "\"{$location->getState()}\"",
+                        "\"{$location->getCountry()}\"",
+                        "\"{$seller->getName()}\"",
+                        "\"{$seller->getType()}\"",
+                        "\"{$user->getPhone()}\"",
+                        "\"{$user->getEmail()}\"",
+                        "\"{$user->getType()}\"",
+                        "\"{$product->getName()}\"",
+                        "\"{$product->getPrice()}\""
                     ]);
                 }
                 $response = new Response(implode("\n", $rows));

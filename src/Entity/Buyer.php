@@ -74,6 +74,12 @@ class Buyer
      */
     private $token;
 
+    private const TYPES = [
+        1 => 'Player',
+        2 => 'Band member',
+        3 => 'Cheerleader'
+    ];
+
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
@@ -202,7 +208,7 @@ class Buyer
 
     public function getType(): ?string
     {
-        return $this->type;
+        return (in_array($this->type, self::TYPES)) ? self::TYPES[$this->type] : $this->type;
     }
 
     public function setType(string $type): self

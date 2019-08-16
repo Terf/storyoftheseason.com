@@ -33,6 +33,13 @@ class Seller
      */
     private $buyers;
 
+    private const TYPES = [
+        1 => 'Parent',
+        2 => 'Player',
+        3 => 'Alumni',
+        4 => 'Student'
+    ];
+
     public function __construct()
     {
         $this->buyers = new ArrayCollection();
@@ -57,7 +64,7 @@ class Seller
 
     public function getType(): ?string
     {
-        return $this->type;
+        return (in_array($this->type, self::TYPES)) ? self::TYPES[$this->type] : $this->type;
     }
 
     public function setType(string $type): self

@@ -107,6 +107,9 @@ coupon-admin:
 coupon-create:
    path: /admin/coupon/create
    controller: App\Controller\CouponController::create
+export:
+   path: /admin/export
+   controller: App\Controller\ExportController::index
 
 
 paypal-webhook:

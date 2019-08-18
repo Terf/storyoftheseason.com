@@ -60,8 +60,25 @@ class ResetPasswordController extends AbstractController
         $entityManager->merge($user);
         $entityManager->flush();
 
+        $this->registerWithKitaboo($user, $password);
+
         $response = new RedirectResponse($this->generateUrl('shop'));
         $response->headers->setCookie(Cookie::create('user_token', $user->getToken()));
         return $response;
+    }
+
+    private function registerWithKitaboo(Entity\Buyer $user, string $unhashedPassword)
+    {
+        $data = json_encode([
+            'user' => [
+                'firstName' => $user->getFirstName(),
+                'lastName' => $user->getLastName(),
+                'userName' => $user->getEmail(),
+                'password' => $unhashedPassword,
+                'clientUserID' => $user->getId(),
+                'email' => $user->getEmail()
+            ]
+        ]);
+        shell_exec('sudo docker run --rm -e ACTION=update_user -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
     }
 }

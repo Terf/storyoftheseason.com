@@ -35,7 +35,7 @@ class ResetPasswordController extends AbstractController
 
         $mailer->send($user->getEmail(), "Story of the Season password reset", "
         <p>Hello {$user->getFirstName()},<p> 
-        <p>A request was sent to reset your password. You can follow the special link <a href='{$this->generateUrl('new-password')}?token={$token}'>here</a> to enter a new password.</p>
+        <p>A request was sent to reset your password. You can follow the special link <a href='https://storyoftheseason.com{$this->generateUrl('new-password')}?token={$token}'>here</a> to enter a new password.</p>
         <br/>
         ");
         return $this->render('reset_password/info.html.twig');

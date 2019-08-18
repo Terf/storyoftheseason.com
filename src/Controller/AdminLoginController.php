@@ -15,7 +15,7 @@ class AdminLoginController extends AbstractController
 {
     public function index()
     {
-        return $this->render('login/admin.html.twig');
+        return $this->render('login/index.html.twig', ['admin' => true]);
     }
 
     public function submit(Request $request, EntityManagerInterface $entityManager)
@@ -29,18 +29,16 @@ class AdminLoginController extends AbstractController
 
         $user = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['email' => $email]);
         if ($user === null) {
-            return $this->redirectToRoute('login-form-admin');
+            return new JsonResponse(['result' => false, 'reason' => 'email']);
         } else {
             if (password_verify($password, $user->getPassword())) {
                 $token = bin2hex(random_bytes(16));
                 $user->setToken($token);
                 $entityManager->merge($user);
                 $entityManager->flush();
-                $response = new RedirectResponse($this->generateUrl('dashboard'));
-                $response->headers->setCookie(Cookie::create('admin_token', $token));
-                return $response;
+                return new JsonResponse(['result' => true, 'token' => $user->getToken()]);
             }
-            return $this->redirectToRoute('login-form-admin');
+            return new JsonResponse(['result' => false, 'reason' => 'password']);
         }
     }
 }

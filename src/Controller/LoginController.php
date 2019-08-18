@@ -15,7 +15,7 @@ class LoginController extends AbstractController
 {
     public function index()
     {
-        return $this->render('login/index.html.twig');
+        return $this->render('login/index.html.twig', ['admin' => false]);
     }
 
     public function submit(Request $request, EntityManagerInterface $entityManager)
@@ -29,18 +29,16 @@ class LoginController extends AbstractController
 
         $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['email' => $email]);
         if ($user === null) {
-            return $this->redirectToRoute('login-form');
+            return new JsonResponse(['result' => false, 'reason' => 'email']);
         } else {
             if (password_verify($password, $user->getPassword())) {
                 $token = bin2hex(random_bytes(16));
                 $user->setToken($token);
                 $entityManager->merge($user);
                 $entityManager->flush();
-                $response = new RedirectResponse($this->generateUrl('shop'));
-                $response->headers->setCookie(Cookie::create('user_token', $token));
-                return $response;
+                return new JsonResponse(['result' => true, 'token' => $user->getToken()]);
             }
-            return $this->redirectToRoute('login-form');
+            return new JsonResponse(['result' => false, 'reason' => 'password']);
         }
     }
 

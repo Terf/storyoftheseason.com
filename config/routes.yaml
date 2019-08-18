@@ -107,10 +107,15 @@ coupon-admin:
 coupon-create:
    path: /admin/coupon/create
    controller: App\Controller\CouponController::create
+   methods: POST
 export:
    path: /admin/export
    controller: App\Controller\ExportController::index
-
+   methods: GET
+dashboard:
+   path: /admin/dashboard
+   controller: App\Controller\DashboardController::index
+   methods: GET
 
 paypal-webhook:
    path: /webhooks/paypal

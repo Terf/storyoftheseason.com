@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Dashboard
+{% endblock %}
+{% block body %}
+{% include 'navbar.admin.html.twig' %}
+{% set sum = 0 %}
+<div class="container">
+    <h2 class="mt-4 mb-4">Dashboard</h2>
+    <ul class="list-unstyled mb-4 p-2 card">
+        {% for product in products %}
+        <li><a href="#product{{product.id}}">{{product.name}}</a></li>
+        {% endfor %}
+    </ul>
+    {% for product in products %}
+    <h4 id="product{{product.id}}">{{product.name}}</h4>
+    {% for purchase in product.purchases %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th class="col">Referred by</th>
+                <th scope="col">Type</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{purchase.user.firstName}} {{purchase.user.lastName}}</th>
+                <td>{{purchase.user.location.address}} {{purchase.user.location.zip}} {{purchase.user.location.state}}
+                    {{purchase.user.location.country}}</td>
+                <td>{{purchase.user.seller.name}}</td>
+                <td>{{purchase.user.seller.type}}</td>
+                <td>{{purchase.user.phone}}</td>
+                <td>{{purchase.user.email}}</td>
+                <td>{{product.price}}</td>
+                {% set sum = sum + product.price %}
+            </tr>
+        </tbody>
+    </table>
+    {% endfor %}
+    {% endfor %}
+    <p class="float-right">Total: ${{sum|round(2)}}</p>
+</div>
+{% endblock %}

@@ -3,8 +3,9 @@
 Product Form
 {% endblock %}
 {% block body %}
+{% include 'navbar.admin.html.twig' %}
 <div class="container">
-    <h2 class="text-center mt-4 mb-4">Create product</h2>
+    <h2 class="mt-4 mb-4">Create product</h2>
     <form action="{{ path('product-create') }}" method="POST" enctype="multipart/form-data" style="max-width: 50vw"
         class="d-block mx-auto">
         {% include 'product_manager/form.html.twig' %}

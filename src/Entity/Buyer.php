@@ -208,7 +208,7 @@ class Buyer
 
     public function getType(): ?string
     {
-        return (in_array($this->type, self::TYPES)) ? self::TYPES[$this->type] : $this->type;
+        return (array_key_exists($this->type, self::TYPES)) ? self::TYPES[$this->type] : $this->type;
     }
 
     public function setType(string $type): self

@@ -3,8 +3,9 @@
 Book Form
 {% endblock %}
 {% block body %}
+{% include 'navbar.admin.html.twig' %}
 <div class="container">
-    <h2 class="text-center mt-4 mb-4">Assign books to products</h2>
+    <h2 class="mt-4 mb-4">Assign books to products</h2>
     <form action="{{ path('book-create') }}" method="POST" style="max-width: 50vw" class="d-block mx-auto">
         <div class="form-group">
             <label for="productSelect">Select product</label>

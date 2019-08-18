@@ -11,7 +11,7 @@ Registration Form
 {% block body %}
 {% include 'navbar.html.twig' %}
 <div class="container">
-    <h2 class="text-center mt-4 mb-4">Story of the Season registration</h2>
+    <h2 class="mt-4 mb-4">Story of the Season registration</h2>
     <form action="{{ path('registration-submit') }}" method="POST" class="needs-validation" novalidate>
         {% include 'registration/form.html.twig' %}
         <div class="form-row">

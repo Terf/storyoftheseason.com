@@ -36,7 +36,7 @@ class AdminLoginController extends AbstractController
                 $user->setToken($token);
                 $entityManager->merge($user);
                 $entityManager->flush();
-                $response = new RedirectResponse($this->generateUrl('product-admin'));
+                $response = new RedirectResponse($this->generateUrl('dashboard'));
                 $response->headers->setCookie(Cookie::create('admin_token', $token));
                 return $response;
             }

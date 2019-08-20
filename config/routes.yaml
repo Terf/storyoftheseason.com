@@ -116,6 +116,14 @@ dashboard:
    path: /admin/dashboard
    controller: App\Controller\DashboardController::index
    methods: GET
+email-admin:
+   path: /admin/email
+   controller: App\Controller\AdminEmailController::index
+   methods: GET
+send-email-admin:
+   path: /admin/email/send
+   controller: App\Controller\AdminEmailController::send
+   methods: POST
 
 paypal-webhook:
    path: /webhooks/paypal

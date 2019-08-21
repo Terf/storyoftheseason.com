@@ -34,10 +34,9 @@ class Seller
     private $buyers;
 
     private const TYPES = [
-        1 => 'Parent',
-        2 => 'Player',
-        3 => 'Alumni',
-        4 => 'Student'
+        1 => 'Player',
+        2 => 'Band member',
+        3 => 'Cheerleader'
     ];
 
     public function __construct()
@@ -67,6 +66,7 @@ class Seller
         return (array_key_exists($this->type, self::TYPES)) ? self::TYPES[$this->type] : $this->type;
     }
 
+    // todo: change this method to int $type
     public function setType(string $type): self
     {
         $this->type = $type;

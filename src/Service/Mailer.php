@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mailer
 {
-    public function send($recipient, $subject, $html)
+    public function send($recipient, $subject, $message)
     {
         $html = '
         <!DOCTYPE html>
@@ -84,7 +84,7 @@ class Mailer
                                 <tbody>
                                 <tr>
                                     <td class="padded" style="vertical-align: top; padding: 0 24px;" valign="top">
-                                      '.$html.'
+                                      '.$message.'
                                     </td>
                                 </tr>
                                 </tbody>
@@ -117,6 +117,7 @@ class Mailer
             $mail->Subject = $subject;
             $mail->isHTML(true);
             $mail->Body = $html;
+            $mail->AltBody = strip_tags($message);
             //This should be the same as the domain of your From address
             $mail->DKIM_domain = 'storyoftheseason.com';
             //Path to your private key:

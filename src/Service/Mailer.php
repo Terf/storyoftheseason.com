@@ -96,30 +96,7 @@ class Mailer
                 </table>
         
                 <div class="spacer" style="font-size: 1px; width: 100%; line-height: 16px;">&nbsp;</div>
-        
-                <table class="footer center" width="602" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; border-spacing: 0; margin: 0 auto; width: 602px;">
-                    <tbody>
-                    <tr>
-                        <td class="border" colspan="2" style="padding: 0; vertical-align: top; font-size: 1px; line-height: 1px; background-color: #e0e0e0; width: 1px;" width="1" valign="top" bgcolor="#e0e0e0">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="signature" width="300" style="padding: 0; vertical-align: bottom; width: 300px; padding-top: 8px; margin-bottom: 16px; text-align: left;" valign="bottom" align="left">
-                            <p style="margin-top: 0; margin-bottom: 8px; color: #616161; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 18px;">
-                                With best regards,<br>
-                                Story of the Season<br>
-                                </p>
-                            <p style="margin-top: 0; margin-bottom: 8px; color: #616161; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 18px;">
-                                Support: <a class="strong" href="mailto:chris@storyoftheseason.com" target="_blank" style="text-decoration: none; color: #616161; font-weight: 700;">chris@storyoftheseason.com</a>
-                            </p>
-                        </td>
-                        <td class="subscription" width="300" style="padding: 0; vertical-align: bottom; width: 300px; padding-top: 8px; margin-bottom: 16px; text-align: right;" valign="bottom" align="right">
-                            <div class="logo-image">
-                                <a href="https://storyoftheseason.com" target="_blank" style="text-decoration: none; color: #616161;"><img src="https://storyoftheseason.com/images/logo.jpg" alt="Story of the Season logo" width="70" height="70" style="border: 0; -ms-interpolation-mode: bicubic;"></a>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+
             </center>
           </body>
         </html>';

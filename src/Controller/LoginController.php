@@ -57,8 +57,9 @@ class LoginController extends AbstractController
         if (in_array($user->getEmail(), $corruptedAccounts)) {
             $purchases = $user->getPurchases();
             $newUser = clone $user;
-            $entityManager->persist($newUser);
             $entityManager->remove($user);
+            $entityManager->flush();
+            $entityManager->persist($newUser);
             foreach ($purchases as $purchase) {
                 $purchase->setUser($newUser);
                 $entityManager->merge($purchase);

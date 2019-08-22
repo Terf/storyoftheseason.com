@@ -54,16 +54,12 @@ class LoginController extends AbstractController
     {
         // these users didnt have their accounts created correctly on Kitaboo's end, if they log in again make sure to create their account
         $corruptedAccounts = ['content@storyoftheseason.com', 'downingchris33@gmail.com', 'omartabdoun@gmail.com', 'rachaelristas@roadrunner.com', 'theo@planetkipp.com', 'gypsyheiress@gmail.com', 'sharon217@comcast.net', 'vricken95@gmail.com', 'ejwssse@gma', 'kbinkowski35@yahoo.com', 'jr.ogle@abcglobal.net'];
-        if (in_array($user->getEmail(), $corruptedAccounts)) {
+        if (in_array($user->getEmail(), $corruptedAccounts) && $user->getId() < 461) {
             $purchases = $user->getPurchases();
             $newUser = clone $user;
             $entityManager->remove($user);
             $entityManager->flush();
             $entityManager->persist($newUser);
-            foreach ($purchases as $purchase) {
-                $purchase->setUser($newUser);
-                $entityManager->persist($purchase);
-            }
             $entityManager->flush();
             $data = json_encode([
                 'user' => [
@@ -76,6 +72,15 @@ class LoginController extends AbstractController
                 ]
             ]);
             shell_exec('sudo docker run --rm -e ACTION=register_user -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
+            foreach ($purchases as $purchase) {
+                $purchase->setUser($newUser);
+                $entityManager->persist($purchase);
+                foreach ($purchase->getProduct()->getBooks() as $book) {
+                    $data = "bookID={$book->getKitabooId()}&userID={$newUser->getId()}";
+                    shell_exec('sudo docker run --rm -e ACTION=purchase -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
+                }
+            }
+            $entityManager->flush();
             return $newUser;
         }
         return $user;

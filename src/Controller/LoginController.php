@@ -55,9 +55,14 @@ class LoginController extends AbstractController
         // these users didnt have their accounts created correctly on Kitaboo's end, if they log in again make sure to create their account
         $corruptedAccounts = ['content@storyoftheseason.com', 'downingchris33@gmail.com', 'omartabdoun@gmail.com', 'rachaelristas@roadrunner.com', 'theo@planetkipp.com', 'gypsyheiress@gmail.com', 'sharon217@comcast.net', 'vricken95@gmail.com', 'ejwssse@gma', 'kbinkowski35@yahoo.com', 'jr.ogle@abcglobal.net'];
         if (in_array($user->getEmail(), $corruptedAccounts)) {
+            $purchases = $user->getPurchases();
             $newUser = clone $user;
             $entityManager->persist($newUser);
             $entityManager->remove($user);
+            foreach ($purchases as $purchase) {
+                $purchase->setUser($newUser);
+                $entityManager->merge($purchase);
+            }
             $entityManager->flush();
             $data = json_encode([
                 'user' => [

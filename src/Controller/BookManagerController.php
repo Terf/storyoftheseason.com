@@ -69,6 +69,11 @@ class BookManagerController extends AbstractController
                     break;
                 }
             }
+            foreach ($product->getPurchases() as $purchase) { // give users who've purchased the subscription (product) access to the book that's now assigned to it
+                $user = $purchase->getUser();
+                $data = "bookID={$book->getKitabooId()}&userID={$user->getId()}";
+                shell_exec('sudo docker run --rm -e ACTION=purchase -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
+            }
         }
 
         $entityManager->flush();

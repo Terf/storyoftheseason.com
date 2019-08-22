@@ -39,7 +39,7 @@ class ProductController extends AbstractController
         }
         $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['token' => $userToken]);
         if ($user === null) {
-            throw new \Exception("User with token {$userToken} not found");
+            return $this->redirectToRoute('login-form');
         } else {
             $userId = $user->getId();
         }

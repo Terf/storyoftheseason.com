@@ -62,7 +62,7 @@ class LoginController extends AbstractController
             $entityManager->persist($newUser);
             foreach ($purchases as $purchase) {
                 $purchase->setUser($newUser);
-                $entityManager->merge($purchase);
+                $entityManager->persist($purchase);
             }
             $entityManager->flush();
             $data = json_encode([

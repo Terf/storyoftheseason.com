@@ -26,10 +26,10 @@ bookshelf:
    controller: App\Controller\BookshelfController::index
    methods: GET
 
-registration-form:
-   path: /register
-   controller: App\Controller\RegistrationController::index
-   methods: GET
+# registration-form:
+#    path: /register
+#    controller: App\Controller\RegistrationController::index
+#    methods: GET
 registration-submit:
    path: /register/submit
    controller: App\Controller\RegistrationController::submit

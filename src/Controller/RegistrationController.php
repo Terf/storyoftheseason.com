@@ -98,7 +98,7 @@ class RegistrationController extends AbstractController
      */
     public function validateEmail(Request $request, EntityManagerInterface $entityManager)
     {
-        $user = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['email' => $request->query->get('email')]);
+        $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['email' => $request->query->get('email')]);
         return new JsonResponse(($user === null) ? true : false);
     }
 

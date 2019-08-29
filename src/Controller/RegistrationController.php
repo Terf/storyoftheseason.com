@@ -73,7 +73,7 @@ class RegistrationController extends AbstractController
 
         $this->registerWithKitaboo($buyer, $request->request->get('pass'));
 
-        $logger->info("{$request->request->get('email')} created an account");
+        $logger->alert("{$request->request->get('email')} created an account");
 
         $purchase = $request->request->get('product');
         if ($purchase !== null) {
@@ -84,10 +84,10 @@ class RegistrationController extends AbstractController
                 'request'  => $req,
             ]);
             $response->headers->setCookie(Cookie::create('user_token', $token));
-            $logger->info("{$request->request->get('email')} being redirected to ProductController to purchase product {$purchase}");
+            $logger->alert("{$request->request->get('email')} being redirected to ProductController to purchase product {$purchase}");
             return $response;
         }
-        $logger->info("{$request->request->get('email')} account created but no purchase made");
+        $logger->alert("{$request->request->get('email')} account created but no purchase made");
         $response = new RedirectResponse($this->generateUrl('shop'));
         $response->headers->setCookie(Cookie::create('user_token', $token));
         return $response;

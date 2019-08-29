@@ -65,7 +65,7 @@ class ProductController extends AbstractController
         $query['ipn_notification_url'] = 'https://storyoftheseason.com/webhooks/paypal';
         $query['custom'] = "{$productId},{$userId}";
 
-        $logger->info("{$request->request->get('email')} sent to PayPal to purchase product {$productId}");
+        $logger->alert("{$request->request->get('email')} sent to PayPal to purchase product {$productId}");
 
         $query_string = http_build_query($query);
         return $this->redirect('https://www.paypal.com/cgi-bin/webscr?' . $query_string);

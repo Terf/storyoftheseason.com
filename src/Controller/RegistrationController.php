@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use App\Entity;
 
 class RegistrationController extends AbstractController
@@ -25,7 +26,7 @@ class RegistrationController extends AbstractController
     /**
      * registration-submit
      */
-    public function submit(Request $request, EntityManagerInterface $entityManager)
+    public function submit(Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         if (strlen($request->request->get('pass')) < 9) {
             return $this->redirectToRoute('registration-form');
@@ -72,6 +73,8 @@ class RegistrationController extends AbstractController
 
         $this->registerWithKitaboo($buyer, $request->request->get('pass'));
 
+        $logger->info("{$request->request->get('email')} created an account");
+
         $purchase = $request->request->get('product');
         if ($purchase !== null) {
             $req = new Request;
@@ -81,8 +84,10 @@ class RegistrationController extends AbstractController
                 'request'  => $req,
             ]);
             $response->headers->setCookie(Cookie::create('user_token', $token));
+            $logger->info("{$request->request->get('email')} being redirected to ProductController to purchase product {$purchase}");
             return $response;
         }
+        $logger->info("{$request->request->get('email')} account created but no purchase made");
         $response = new RedirectResponse($this->generateUrl('shop'));
         $response->headers->setCookie(Cookie::create('user_token', $token));
         return $response;

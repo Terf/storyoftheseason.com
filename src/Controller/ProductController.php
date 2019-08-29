@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use App\Entity;
 
 class ProductController extends AbstractController
@@ -25,7 +26,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    public function purchase(Request $request, EntityManagerInterface $entityManager)
+    public function purchase(Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         $productId = $request->request->get('product');
         $userToken = $request->request->get('user');
@@ -63,6 +64,8 @@ class ProductController extends AbstractController
         $query['cancel_url'] = 'https://storyoftheseason.com?paypal=cancel';
         $query['ipn_notification_url'] = 'https://storyoftheseason.com/webhooks/paypal';
         $query['custom'] = "{$productId},{$userId}";
+
+        $logger->info("{$request->request->get('email')} sent to PayPal to purchase product {$productId}");
 
         $query_string = http_build_query($query);
         return $this->redirect('https://www.paypal.com/cgi-bin/webscr?' . $query_string);

@@ -1,5 +1,6 @@
 //
 var validEmail = false;
+var submissionInProgress = false;
 function validateEmail(input) {
     $.ajax({
         url: '{{ path("validate-email") }}',
@@ -25,10 +26,11 @@ window.addEventListener('load', function () {
     var forms = document.getElementsByClassName('needs-validation');
     var validation = Array.prototype.filter.call(forms, function (form) {
         form.addEventListener('submit', function (event) {
-            if (form.checkValidity() === false || validEmail === false) {
+            if (form.checkValidity() === false || validEmail === false || submissionInProgress === true) {
                 event.preventDefault();
                 event.stopPropagation();
             }
+            submissionInProgress = true;
             form.classList.add('was-validated');
         }, false);
     });

@@ -29,9 +29,10 @@ window.addEventListener('load', function () {
             if (form.checkValidity() === false || validEmail === false || submissionInProgress === true) {
                 event.preventDefault();
                 event.stopPropagation();
+            } else {
+                submissionInProgress = true;
+                form.classList.add('was-validated');
             }
-            submissionInProgress = true;
-            form.classList.add('was-validated');
         }, false);
     });
 }, false);

@@ -83,13 +83,13 @@ class RegistrationController extends AbstractController
             $response = $this->forward('App\Controller\ProductController::purchase', [
                 'request'  => $req,
             ]);
-            $response->headers->setCookie(Cookie::create('user_token', $token));
+            $response->headers->setCookie(Cookie::create('user_token', $buyer->getToken()));
             $logger->alert("{$request->request->get('email')} being redirected to ProductController to purchase product {$purchase}");
             return $response;
         }
         $logger->alert("{$request->request->get('email')} account created but no purchase made");
         $response = new RedirectResponse($this->generateUrl('shop'));
-        $response->headers->setCookie(Cookie::create('user_token', $token));
+        $response->headers->setCookie(Cookie::create('user_token', $buyer->getToken()));
         return $response;
     }
 

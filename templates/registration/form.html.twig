@@ -101,7 +101,7 @@
                 id="terms{% if loop.index is defined %}{{loop.index}}{% endif %}" name="terms" required>
             <label class="custom-control-label" for="terms{% if loop.index is defined %}{{loop.index}}{% endif %}">By
                 purchasing a subscription and creating an account
-                with storyit, you agree to the terms and conditions.</label>
+                with storyit, you agree to the <a href="{{path('privacy-policy')}}">terms and conditions</a>.</label>
             <div class="invalid-feedback">
                 You must agree before submitting.
             </div>

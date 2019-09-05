@@ -13,4 +13,12 @@ class LandingController extends AbstractController
     {
         return $this->render('landing/index.html.twig');
     }
+
+    /**
+     * privacy-policy
+     */
+    public function privacyPolicy()
+    {
+        return $this->render('landing/privacy.html.twig');
+    }
 }

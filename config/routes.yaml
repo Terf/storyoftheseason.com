@@ -2,6 +2,10 @@ index:
    path: /
    controller: App\Controller\LandingController::index
    methods: GET
+privacy-policy:
+   path: /privacy-policy
+   controller: App\Controller\LandingController::privacyPolicy
+   methods: GET
 
 shop:
    path: /shop

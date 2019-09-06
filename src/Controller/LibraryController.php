@@ -12,7 +12,7 @@ use App\Entity;
 use \DateTime;
 use \DateTimeZone;
 
-class UploadController extends AbstractController
+class LibraryController extends AbstractController
 {
     /**
      * upload-form
@@ -20,15 +20,21 @@ class UploadController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager)
     {
         $user = null;
-        $myLibrary = null;
+        $myLibrary = [];
         if ($request->cookies->has('user_token')) {
             $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['token' => $request->cookies->get('user_token')]);
             if ($user !== null) {
-                $myLibrary = $user->getUploads();
+                // $myLibrary = $user->getUploads();
+                foreach ($user->getPurchases() as $purchase) {
+                    foreach ($purchase->getProduct()->getBooks() as $book) {
+                        $myLibrary[] = $book;
+                    }
+                }
                 $user = $user->getId();
             }
         }
-        return $this->render('upload/index.html.twig', [
+
+        return $this->render('library/index.html.twig', [
             'user' => $user,
             'library' => $myLibrary
         ]);

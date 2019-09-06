@@ -42,6 +42,11 @@ class Book
      */
     private $kitabooId;
 
+    /**
+     * @ORM\Column(type="string", length=2000, nullable=true)
+     */
+    private $url;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class Book
     public function setKitabooId(int $kitabooId): self
     {
         $this->kitabooId = $kitabooId;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

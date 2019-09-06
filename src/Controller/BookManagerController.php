@@ -39,44 +39,42 @@ class BookManagerController extends AbstractController
             return new JsonResponse(false);
         }
 
-        $productId = $request->request->get('productSelect');
-        $books = $request->request->get('books');
-        $json = $request->request->get('json');
+        $title = $request->request->get('title');
+        $products = $request->request->get('products');
+        $url = $request->request->get('url');
+        $image = $request->request->get('image');
 
-        if ($productId === null || $books === null || $json === null) {
-            throw new \Exception("Missing fields: need to POST 'productSelect', 'books', 'json'; received " . print_r($request->request->all(), true));
+        if ($title === null || $products === null || $url === null || $image === null) {
+            throw new \Exception("Missing fields: need to POST 'title', 'products', 'url', 'image'; received " . print_r($request->request->all(), true));
         }
 
-        $product = $entityManager->getRepository(Entity\Product::class)->find($productId);
-        $bookJson = json_decode($json, true);
-
-        foreach ($books as $bookId) {
-            $bookId = (int) $bookId;
-            $existingBook = $entityManager->getRepository(Entity\Book::class)->find($bookId);
-            $book = ($existingBook === null) ? new Entity\Book : $existingBook;
-            $book->setProduct($product);
-            foreach ($bookJson as $item) {
-                if ($item['book']['id'] === $bookId) {
-                    $book->setKitabooId($item['book']['id']);
-                    $book->setIsbn($item['book']['isbn']);
-                    $book->setImage($item['book']['thumbURL']);
-                    $book->setTitle($item['book']['title']);
-                    if ($existingBook === null) {
-                        $entityManager->persist($book);
-                    } else {
-                        $entityManager->merge($book);
-                    }
-                    break;
-                }
+        if ($image->isValid()) {
+            $path = '/var/www/html/public/uploads/';
+            $fn = $image->getClientOriginalName();
+            if (file_exists($path . $fn)) {
+                $fn = uniqid() . '.' . $image->guessClientExtension();
             }
-            foreach ($product->getPurchases() as $purchase) { // give users who've purchased the subscription (product) access to the book that's now assigned to it
-                $user = $purchase->getUser();
-                $data = "bookID={$book->getKitabooId()}&userID={$user->getId()}";
-                shell_exec('sudo docker run --rm -e ACTION=purchase -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
-            }
+            $image->move($path, $fn);
+            $upload->setFile($fn);
         }
 
+        $book = new Entity\Book;
+        $book->setTitle($title);
+        $book->setUrl($url);
+        $book->setImage($fn);
+        // tmp values until were sure were moving away from kitaboo
+        $book->setIsbn(time());
+        $book->kitabooId(time());
+
+        foreach ($products as $productId) {
+            $product = $entityManager->getRepository(Entity\Product::class)->find($productId);
+            $productId->addBook($book);
+            $entityManager->merge($product);
+        }
+
+        $entityManager->persist($book);
         $entityManager->flush();
+
         return new JsonResponse(true);
     }
 }

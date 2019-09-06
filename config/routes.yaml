@@ -18,11 +18,11 @@ buy-now:
 
 upload-form:
    path: /upload
-   controller: App\Controller\UploadController::index
+   controller: App\Controller\LibraryController::index
    methods: GET
 upload-submit:
    path: /upload/submit
-   controller: App\Controller\UploadController::submit
+   controller: App\Controller\LibraryController::submit
    methods: POST
 
 bookshelf:

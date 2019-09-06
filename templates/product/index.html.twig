@@ -117,12 +117,16 @@ Shop
                         <h5 class="card-title">{{product.name}}</h5>
                         <p class="card-text">{{product.description}}</p>
                         {% if app.request.cookies.get('user_token') != null %}
+                        {% if product.id in purchases %}
+                        <a href="{{path('my-library') }}" class="btn btn-primary">Read</a>
+                        {% else %}
                         <form action="{{ path('buy-now') }}" method="POST" data-coupon="{{product.coupons|length}}"
                             onsubmit="checkForCoupon(event)" class="d-inline">
                             <input type="hidden" name="product" value="{{product.id}}">
                             <input type="hidden" name="user" value="{{ app.request.cookies.get('user_token') }}">
                             <button type="submit" class="btn btn-primary">Buy now</button>
                         </form>
+                        {% endif %}
                         {% else %}
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal"
                             data-coupon="{{product.coupons|length}}" data-product="{{product.id}}">Buy now</button>

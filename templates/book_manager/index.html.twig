@@ -6,7 +6,7 @@ product Form
 {% include 'navbar.admin.html.twig' %}
 <div class="container">
     <h2 class="mt-4 mb-4">Upload books</h2>
-    <form action="{{ path('book-create') }}" method="POST" style="max-width: 50vw" class="d-block mx-auto">
+    <form action="{{ path('book-create') }}" method="POST" style="max-width: 50vw" class="d-block mx-auto" enctype="multipart/form-data">
         {% for product in products %}
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="products[]" value="{{product.id}}"

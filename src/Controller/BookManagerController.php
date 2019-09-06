@@ -55,20 +55,18 @@ class BookManagerController extends AbstractController
                 $fn = uniqid() . '.' . $image->guessClientExtension();
             }
             $image->move($path, $fn);
-            $upload->setFile($fn);
         }
 
         $book = new Entity\Book;
         $book->setTitle($title);
         $book->setUrl($url);
         $book->setImage($fn);
-        // tmp values until were sure were moving away from kitaboo
         $book->setIsbn(time());
-        $book->kitabooId(time());
+        $book->setKitabooId(time());
 
         foreach ($products as $productId) {
             $product = $entityManager->getRepository(Entity\Product::class)->find($productId);
-            $productId->addBook($book);
+            $product->addBook($book);
             $entityManager->merge($product);
         }
 

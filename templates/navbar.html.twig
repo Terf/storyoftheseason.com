@@ -13,11 +13,8 @@
       <li class="nav-item {% if route == path('shop') %}active{% endif %}">
         <a class="nav-link" href="{{ path('shop') }}">Subscribe to your team</a>
       </li>
-      <li class="nav-item {% if route == path('upload-form') %}active{% endif %}">
-        <a class="nav-link" href="{{ path('upload-form') }}">Upload to your story</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://storyoftheseason.kitaboo.com/">Read Story of the Season</a>
+      <li class="nav-item {% if route == path('my-library') %}active{% endif %}">
+        <a class="nav-link" href="{{ path('my-library') }}">My Library</a>
       </li>
     </ul>
     {% if app.request.cookies.get('user_token') == null %}

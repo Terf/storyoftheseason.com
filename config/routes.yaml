@@ -16,8 +16,8 @@ buy-now:
    controller: App\Controller\ProductController::purchase
    methods: POST
 
-upload-form:
-   path: /upload
+my-library:
+   path: /my-library
    controller: App\Controller\LibraryController::index
    methods: GET
 upload-submit:

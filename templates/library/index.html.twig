@@ -16,11 +16,11 @@ Upload your Story
 <div class="container" style="margin-bottom: 15rem">
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" id="my-library-tab" data-toggle="tab" href="#my-library" role="tab"
+            <a class="nav-link active" id="my-library-tab" data-toggle="tab" href="#my-library" role="tab"
                 aria-controls="my-library" aria-selected="true">My Library</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
+            <a class="nav-link" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
                 aria-controls="upload" aria-selected="false">Upload Content</a>
         </li>
         <!-- <li class="nav-item">
@@ -33,7 +33,7 @@ Upload your Story
         </li> -->
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane mt-4 fade" id="my-library" role="tabpanel" aria-labelledby="my-library-tab">
+        <div class="tab-pane mt-4 fade show active" id="my-library" role="tabpanel" aria-labelledby="my-library-tab">
             <h3 class="text-center">My Library</h3>
             {% if library|length > 0 %}
             <div class="card-columns">
@@ -68,7 +68,7 @@ Upload your Story
             {% endfor %}
             {% endif %}#}
         </div>
-        <div class="tab-pane mt-4 fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+        <div class="tab-pane mt-4 fade" id="upload" role="tabpanel" aria-labelledby="upload-tab">
             <h3 class="text-center mb-2">Upload Content</h3>
             <form action="{{ path('upload-submit') }}" method="POST" enctype="multipart/form-data"
                 onsubmit="document.getElementById('tz').value=Intl.DateTimeFormat().resolvedOptions().timeZone">

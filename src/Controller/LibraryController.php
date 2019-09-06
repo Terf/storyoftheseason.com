@@ -15,7 +15,7 @@ use \DateTimeZone;
 class LibraryController extends AbstractController
 {
     /**
-     * upload-form
+     * my-library
      */
     public function index(Request $request, EntityManagerInterface $entityManager)
     {
@@ -86,6 +86,6 @@ class LibraryController extends AbstractController
         $entityManager->persist($upload);
         $entityManager->flush();
 
-        return $this->redirectToRoute('upload-form');
+        return $this->redirectToRoute('my-library');
     }
 }

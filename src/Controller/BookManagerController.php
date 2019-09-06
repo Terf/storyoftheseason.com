@@ -42,7 +42,7 @@ class BookManagerController extends AbstractController
         $title = $request->request->get('title');
         $products = $request->request->get('products');
         $url = $request->request->get('url');
-        $image = $request->request->get('image');
+        $image = $request->files->get('image');
 
         if ($title === null || $products === null || $url === null || $image === null) {
             throw new \Exception("Missing fields: need to POST 'title', 'products', 'url', 'image'; received " . print_r($request->request->all(), true));

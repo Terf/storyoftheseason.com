@@ -13,7 +13,7 @@ class Mailer
         <html>
           <head>
           </head>
-          <body style="margin: 0; padding: 10px; mso-line-height-rule: exactly; min-width: 100%; background-color: #ffffff;color: #616161; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 14px;"">
+          <body style="margin: 0; padding: 10px; mso-line-height-rule: exactly; min-width: 100%; background-color: #ffffff;color: #000; font-family: Roboto, Helvetica, sans-serif; font-weight: 400; font-size: 12px; line-height: 14px;"">
             '.$message.'
           </body>
         </html>';

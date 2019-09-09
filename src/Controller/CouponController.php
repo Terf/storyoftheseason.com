@@ -49,7 +49,7 @@ class CouponController extends AbstractController
             throw new \Exception("Missing fields: need to POST 'code', 'discount', 'product'; received " . print_r($request->request->all(), true));
         }
 
-        $product = $entityManager->getRepository(Entity\Product::class)->findAll($product);
+        $product = $entityManager->getRepository(Entity\Product::class)->find($product);
 
         if ($product === null) {
             throw new \Exception("Can not find requested product");

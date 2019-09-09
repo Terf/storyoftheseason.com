@@ -32,7 +32,6 @@ class LoginController extends AbstractController
             return new JsonResponse(['result' => false, 'reason' => 'email']);
         } else {
             if (password_verify($password, $user->getPassword())) {
-                $user = $this->ensureKitabooRegistration($user, $password, $entityManager);
                 $token = bin2hex(random_bytes(16));
                 $user->setToken($token);
                 $entityManager->merge($user);
@@ -50,39 +49,4 @@ class LoginController extends AbstractController
         return $response;
     }
 
-    private function ensureKitabooRegistration($user, $unhashedPassword, $entityManager)
-    {
-        // these users didnt have their accounts created correctly on Kitaboo's end, if they log in again make sure to create their account
-        $corruptedAccounts = ['content@storyoftheseason.com', 'downingchris33@gmail.com', 'omartabdoun@gmail.com', 'rachaelristas@roadrunner.com', 'theo@planetkipp.com', 'gypsyheiress@gmail.com', 'sharon217@comcast.net', 'vricken95@gmail.com', 'ejwssse@gma', 'kbinkowski35@yahoo.com', 'jr.ogle@abcglobal.net'];
-        if (in_array($user->getEmail(), $corruptedAccounts) && $user->getId() < 461) {
-            $purchases = $user->getPurchases();
-            $newUser = clone $user;
-            $entityManager->remove($user);
-            $entityManager->flush();
-            $entityManager->persist($newUser);
-            $entityManager->flush();
-            $data = json_encode([
-                'user' => [
-                    'firstName' => $newUser->getFirstName(),
-                    'lastName' => $newUser->getLastName(),
-                    'userName' => $newUser->getEmail(),
-                    'password' => $unhashedPassword,
-                    'clientUserID' => $newUser->getId(),
-                    'email' => $newUser->getEmail()
-                ]
-            ]);
-            shell_exec('sudo docker run --rm -e ACTION=register_user -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
-            foreach ($purchases as $purchase) {
-                $purchase->setUser($newUser);
-                $entityManager->persist($purchase);
-                foreach ($purchase->getProduct()->getBooks() as $book) {
-                    $data = "bookID={$book->getKitabooId()}&userID={$newUser->getId()}";
-                    shell_exec('sudo docker run --rm -e ACTION=purchase -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
-                }
-            }
-            $entityManager->flush();
-            return $newUser;
-        }
-        return $user;
-    }
 }

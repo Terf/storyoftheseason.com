@@ -71,8 +71,6 @@ class RegistrationController extends AbstractController
         $entityManager->persist($seller);
         $entityManager->flush();
 
-        $this->registerWithKitaboo($buyer, $request->request->get('pass'));
-
         $logger->alert("{$request->request->get('email')} created an account");
 
         $purchase = $request->request->get('product');
@@ -102,18 +100,4 @@ class RegistrationController extends AbstractController
         return new JsonResponse(($user === null) ? true : false);
     }
 
-    private function registerWithKitaboo(Entity\Buyer $user, string $unhashedPassword)
-    {
-        $data = json_encode([
-            'user' => [
-                'firstName' => $user->getFirstName(),
-                'lastName' => $user->getLastName(),
-                'userName' => $user->getEmail(),
-                'password' => $unhashedPassword,
-                'clientUserID' => $user->getId(),
-                'email' => $user->getEmail()
-            ]
-        ]);
-        shell_exec('sudo docker run --rm -e ACTION=register_user -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
-    }
 }

@@ -48,11 +48,6 @@ class PaypalCallbackController extends AbstractController
         $purchase->setUser($user);
         $entityManager->persist($purchase);
         $entityManager->flush();
-        // assign all created books to user
-        foreach ($product->getBooks() as $book) {
-            $data = "bookID={$book->getKitabooId()}&userID={$user->getId()}";
-            shell_exec('sudo docker run --rm -e ACTION=purchase -e DATA='.escapeshellarg($data).' -e CONSUMER_KEY='.getenv('KITABOO_CONSUMER_KEY_PROD').' -e SECRET_KEY='.getenv('KITABOO_SECRET_KEY_PROD').' --name running-kitaboo kitaboo');
-        }
 
         $mailer->send($user->getEmail(), "Story of the Season subscription", "
         <p>Thank you for subscribing to {$product->getName()}.  Our goal is to deeply engage fans, patrons, friends and family, across the country with their favorite team and create a community around your program by telling your team’s story every week throughout the season.</p>

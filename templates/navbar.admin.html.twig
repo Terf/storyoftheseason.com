@@ -4,22 +4,19 @@
     <div class="col">
       <ul class="nav nav-tabs mr-auto">
         <li class="nav-item">
-          <a class="nav-link {% if route == path('dashboard') %}active{% endif %}" href="{{ path('dashboard') }}">Home</a>
+          <a class="nav-link {% if route == path('dashboard') %}active{% endif %}" href="{{ path('dashboard') }}">Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if route == path('product-admin') %}active{% endif %}" href="{{ path('product-admin') }}">Create product</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if route == path('book-admin') %}active{% endif %}" href="{{ path('book-admin') }}">Assign books to products</a>
+          <a class="nav-link {% if route == path('book-admin') %}active{% endif %}" href="{{ path('book-admin') }}">Upload books</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if route == path('coupon-admin') %}active{% endif %}" href="{{ path('coupon-admin') }}">Create coupons</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if route == path('email-admin') %}active{% endif %}" href="{{ path('email-admin') }}">Send emails</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if route == path('book-admin') %}active{% endif %}" href="{{ path('book-admin') }}">Upload books</a>
         </li>
       </ul>
     </div>

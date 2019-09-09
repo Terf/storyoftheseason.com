@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
             $product = $entityManager->getRepository(Entity\Product::class)->find($request->request->get('product'));
             $csv = $request->files->get('file');
             $path = $csv->getRealPath();
-            $data = array_map('str_getcsv', file(explode("\n", file_get_contents($path))));
+            $data = array_map('str_getcsv', explode("\n", file_get_contents($path)));
             $location = $entityManager->getRepository(Entity\Location::class)->find(-1);
             $seller = $entityManager->getRepository(Entity\Seller::class)->find(-1);
             for ($i = 1; $i < count($data); $i++) { // i = 1 bc first line is header
@@ -147,6 +147,7 @@ class RegistrationController extends AbstractController
                 . "<p>Chris Herman</p>");
             }
             $entityManager->flush();
+            return new JsonResponse(true);
         }
         return new JsonResponse(false);
     }

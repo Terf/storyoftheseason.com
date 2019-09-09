@@ -9,7 +9,7 @@ Dashboard
     aria-hidden="true">
     <div class="modal-dialog" role="document">
 
-        <form action="{{path('registration-import')}}" action="POST" enctype="multipart/form-data">
+        <form action="{{path('registration-import')}}" method="POST" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="importAccountModalLabel">Modal title</h5>
@@ -27,7 +27,7 @@ Dashboard
                     {% endfor %}
                     <div class="form-group">
                         <label for="csv">Upload CSV</label>
-                        <input type="file" class="form-control-file" id="csv" name="csv">
+                        <input type="file" class="form-control-file" id="csv" name="file">
                     </div>
                 </div>
                 <div class="modal-footer">

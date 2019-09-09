@@ -44,7 +44,7 @@ validate-email:
    methods: GET
 registration-import:
    path: /register/import
-   controller: App\Controller\RegistrationController::submit
+   controller: App\Controller\RegistrationController::import
    methods: POST
 login-form:
    path: /login

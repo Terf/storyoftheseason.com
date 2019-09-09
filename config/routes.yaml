@@ -104,6 +104,14 @@ book-create:
    path: /admin/book/create
    controller: App\Controller\BookManagerController::create
    methods: POST
+book-delete:
+   path: /admin/book/delete
+   controller: App\Controller\BookManagerController::delete
+   methods: POST
+book-edit:
+   path: /admin/book/edit
+   controller: App\Controller\BookManagerController::edit
+   methods: POST
 coupon-admin:
    path: /admin/coupons
    controller: App\Controller\CouponController::index

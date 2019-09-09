@@ -44,7 +44,35 @@ Shop
         modal.find('.modal-body input[name="description"]').val(description);
         modal.find('.modal-body input[name="price"]').val(price);
         modal.find('.modal-body input[name="id"]').val(id);
+    });
 
+    $('#editBookModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var count = button.data('count');
+        var modal = $(this);
+        var html = '';
+        for (var index = 1; index <= count; index++) {
+            var id = button.data('id' + index);
+            var title = button.data('title' + index);
+            var image = button.data('image' + index);
+            var url = button.data('url' + index);
+            html += '<form action="{{path("book-edit")}}" method="POST" class="mt-4 mr-2 d-inline" enctype="multipart/form-data">';
+            html += '<div class="form-group">'
+                + '<label for="title' + index + '">Title</label>'
+                + '<input type="text" value="' + title + '" class="form-control" name="title" id="title' + index + '" placeholder="Title">'
+                + '</div>';
+            html += '<div class="form-group">'
+                + '<label for="file' + index + '">Image</label>'
+                + '<input type="file" class="form-control-file" name="file" id="file"'+ index +'>'
+                + '</div><p class="text-muted">Currently: <img style="max-width: 50px;" src="/uploads/' + image + '">; only select another file if you want to replace the image</p>';
+            html += '<div class="form-group">'
+                + '<label for="title' + index + '">URL</label>'
+                + '<input type="text" value="' + url + '" class="form-control" name="url" id="title' + index + '" placeholder="URL">'
+                + '</div>';
+            html += '<button type="submit" class="btn btn-primary">Save</button><input type="hidden" name="id" value="' + id + '"></form> ';
+            html += '<form action="{{path("book-delete")}}" method="POST" class="d-inline"><input type="hidden" name="id" value="' + id + '"><button type="submit" class="btn btn-danger">Delete</button></form>';
+        }
+        modal.find('.modal-body').html(html);
     });
     // {% endif %}
 
@@ -100,6 +128,27 @@ Shop
 
     </div>
 </div>
+
+<div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBookModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endif %}
 {% include 'navbar.html.twig' %}
 <div class="container">
@@ -140,6 +189,14 @@ Shop
                             data-name="{{product.name}}" data-description="{{product.description}}"
                             data-price="{{product.price}}" data-image="{{product.image}}"
                             data-id="{{product.id}}">Edit</button>
+                        {% if product.books|length > 0 %}
+                        <button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#editBookModal"
+                            data-count="{{product.books|length}}" {% for book in product.books %}
+                            data-title{{loop.index}}="{{book.title}}" data-image{{loop.index}}="{{book.image}}" data-id{{loop.index}}="{{book.id}}"
+                            data-url{{loop.index}}="{{book.url}}" {% endfor %}>{{product.books|length}} books</button>
+                        {% else %}
+                        <p>This product has no assigned books.</p>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use App\Service\Mailer;
 use App\Entity;
 
 class RegistrationController extends AbstractController
@@ -98,6 +99,56 @@ class RegistrationController extends AbstractController
     {
         $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['email' => $request->query->get('email')]);
         return new JsonResponse(($user === null) ? true : false);
+    }
+
+    /**
+     * registration-import
+     */
+    public function import(Request $request, EntityManagerInterface $entityManager, Mailer $mailer)
+    {
+        $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
+        if ($admin !== null) {
+            $product = $entityManager->getRepository(Entity\Product::class)->find($request->request->get('product'));
+            $csv = $request->files->get('file');
+            $path = $csv->getRealPath();
+            $data = array_map('str_getcsv', file(explode("\n", file_get_contents($path))));
+            $location = $entityManager->getRepository(Entity\Location::class)->find(-1);
+            $seller = $entityManager->getRepository(Entity\Seller::class)->find(-1);
+            for ($i = 1; $i < count($data); $i++) { // i = 1 bc first line is header
+                $buyer = new Entity\Buyer;
+                $purchase = new Entity\Purchase;
+                $purchase->setProduct($product);
+                $buyer->setEmail($data[$i][1]);
+                $name = explode(' ', $data[$i][2]);
+                $buyer->setFirstName($name[0]);
+                $buyer->setLastName((count($name) > 1) ? $name[1] : '');
+                $buyer->setPassword(password_hash($data[$i][3], PASSWORD_DEFAULT));
+                $buyer->setPhone($data[$i][4]);
+                $buyer->setType(7);
+                foreach (Entity\Buyer::TYPES as $id => $type) {
+                    if (trim(strtolower($data[$i][5])) === strtolower($type)) {
+                        $buyer->setType($id);
+                        break;
+                    }
+                }
+                $buyer->setLocation($location);
+                $buyer->setSeller($seller);
+                $buyer->setToken(null);
+                $buyer->addPurchase($purchase);
+                $purchase->setUser($buyer);
+                $entityManager->persist($buyer);
+                $entityManager->persist($purchase);
+                $mailer->send($buyer->getEmail(), 'Account created on storyoftheseason.com',  "<p>Hi {$buyer->getFirstName()},</p>"
+                . "<p>Thank you for subscribing to the {$product->getName()} Story of the Season.  If you are receiving this email, you have been registered as a Story of the Season subscribed user.  You can go to Storyoftheseason.com and login to access your library.  Once you successfully log in, click on \"My Library\" and you can see your team's published content!</p>"
+                . "<p>Your username is {$buyer->getEmail()}, and your password is {$data[$i][3]}.  You can change your password <a href='https://storyoftheseason.com/reset-password'>here</a> if you'd like.</p>"
+                . "<p>Do you have your own photos, videos, articles, etc that you want to share?  You can upload content to Story of the Season at storyoftheseason.com.</p>"
+                . "<p>If you have any questions, contact me at chris@storyoftheseason.co or call (518) 944-3311.</p>"
+                . "<p>Thanks,</p>"
+                . "<p>Chris Herman</p>");
+            }
+            $entityManager->flush();
+        }
+        return new JsonResponse(false);
     }
 
 }

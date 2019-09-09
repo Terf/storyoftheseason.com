@@ -74,7 +74,7 @@ class Buyer
      */
     private $token;
 
-    private const TYPES = [
+    public const TYPES = [
         1 => 'Parent',
         2 => 'Player',
         3 => 'Alumni',

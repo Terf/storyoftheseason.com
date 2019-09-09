@@ -5,44 +5,94 @@ Dashboard
 {% block body %}
 {% include 'navbar.admin.html.twig' %}
 {% set sum = 0 %}
+<div class="modal fade" id="importAccountModal" tabindex="-1" role="dialog" aria-labelledby="importAccountModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+        <form action="{{path('registration-import')}}" action="POST" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importAccountModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for product in products %}
+                    <div class="form-group form-check">
+                        <input {% if loop.index == 1 %}checked="" {% endif %} type="radio" class="form-check-input"
+                            id="product{{product.id}}" name="product" value="{{product.id}}">
+                        <label class="form-check-label" for="product{{product.id}}">{{product.name}}</label>
+                    </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="csv">Upload CSV</label>
+                        <input type="file" class="form-control-file" id="csv" name="csv">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Create accounts</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
 <div class="container">
-    <h2 class="mt-4 mb-4">Dashboard</h2>
-    <ul class="list-unstyled mb-4 p-2 card">
-        {% for product in products %}
-        <li><a href="#product{{product.id}}">{{product.name}}</a></li>
-        {% endfor %}
-    </ul>
-    {% for product in products %}
-    <h4 id="product{{product.id}}">{{product.name}}</h4>
-    {% for purchase in product.purchases %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th class="col">Referred by</th>
-                <th scope="col">Type</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Email</th>
-                <th scope="col">Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">{{purchase.user.firstName}} {{purchase.user.lastName}}</th>
-                <td>{{purchase.user.location.address}} {{purchase.user.location.zip}} {{purchase.user.location.state}}
-                    {{purchase.user.location.country}}</td>
-                <td>{{purchase.user.seller.name}}</td>
-                <td>{{purchase.user.seller.type}}</td>
-                <td>{{purchase.user.phone}}</td>
-                <td>{{purchase.user.email}}</td>
-                <td>{{product.price}}</td>
-                {% set sum = sum + product.price %}
-            </tr>
-        </tbody>
-    </table>
-    {% endfor %}
-    {% endfor %}
-    <p class="float-right">Total: ${{sum|round(2)}}</p>
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mt-4 mb-4">Dashboard</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10">
+            <ul class="list-unstyled mb-4 p-2 card">
+                {% for product in products %}
+                <li><a href="#product{{product.id}}">{{product.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importAccountModal">Import accounts</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            {% for product in products %}
+            <h4 id="product{{product.id}}">{{product.name}}</h4>
+            {% for purchase in product.purchases %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th class="col">Referred by</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">{{purchase.user.firstName}} {{purchase.user.lastName}}</th>
+                        <td>{{purchase.user.location.address}} {{purchase.user.location.zip}}
+                            {{purchase.user.location.state}}
+                            {{purchase.user.location.country}}</td>
+                        <td>{{purchase.user.seller.name}}</td>
+                        <td>{{purchase.user.seller.type}}</td>
+                        <td>{{purchase.user.phone}}</td>
+                        <td>{{purchase.user.email}}</td>
+                        <td>{{product.price}}</td>
+                        {% set sum = sum + product.price %}
+                    </tr>
+                </tbody>
+            </table>
+            {% endfor %}
+            {% endfor %}
+            <p class="float-right">Total: ${{sum|round(2)}}</p>
+        </div>
+    </div>
 </div>
 {% endblock %}

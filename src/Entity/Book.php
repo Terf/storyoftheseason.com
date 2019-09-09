@@ -23,11 +23,6 @@ class Book
     private $product;
 
     /**
-     * @ORM\Column(type="string", length=13)
-     */
-    private $isbn;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $title;
@@ -55,18 +50,6 @@ class Book
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
-        return $this;
-    }
-
-    public function getIsbn(): ?string
-    {
-        return $this->isbn;
-    }
-
-    public function setIsbn(string $isbn): self
-    {
-        $this->isbn = $isbn;
 
         return $this;
     }

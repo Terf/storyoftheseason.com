@@ -108,6 +108,7 @@ class RegistrationController extends AbstractController
     {
         $admin = $entityManager->getRepository(Entity\Admin::class)->findOneBy(['token' => $request->cookies->get('admin_token')]);
         if ($admin !== null) {
+            $buyer = $entityManager->getRepository(Entity\Buyer::class);
             $product = $entityManager->getRepository(Entity\Product::class)->find($request->request->get('product'));
             $csv = $request->files->get('file');
             $path = $csv->getRealPath();
@@ -115,7 +116,7 @@ class RegistrationController extends AbstractController
             $location = $entityManager->getRepository(Entity\Location::class)->find(-1);
             $seller = $entityManager->getRepository(Entity\Seller::class)->find(-1);
             for ($i = 1; $i < count($data); $i++) { // i = 1 bc first line is header
-                if ($data[$i][1] == null) {
+                if ($data[$i][1] == null || $buyer->findOneBy(['email' => $data[$i][1]]) !== null) {
                     continue;
                 }
                 $buyer = new Entity\Buyer;

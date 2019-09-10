@@ -115,6 +115,9 @@ class RegistrationController extends AbstractController
             $location = $entityManager->getRepository(Entity\Location::class)->find(-1);
             $seller = $entityManager->getRepository(Entity\Seller::class)->find(-1);
             for ($i = 1; $i < count($data); $i++) { // i = 1 bc first line is header
+                if ($data[$i][1] == null) {
+                    continue;
+                }
                 $buyer = new Entity\Buyer;
                 $purchase = new Entity\Purchase;
                 $purchase->setProduct($product);

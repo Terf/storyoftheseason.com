@@ -84,8 +84,8 @@ Dashboard
                         <td>{{purchase.user.seller.type}}</td>
                         <td>{{purchase.user.phone}}</td>
                         <td>{{purchase.user.email}}</td>
-                        <td>{{product.price}}</td>
-                        {% set sum = sum + product.price %}
+                        <td>{{purchase.price}}</td>
+                        {% set sum = sum + purchase.price %}
                     </tr>
                 </tbody>
             </table>

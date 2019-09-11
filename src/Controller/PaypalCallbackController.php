@@ -46,7 +46,7 @@ class PaypalCallbackController extends AbstractController
         $purchase = new Entity\Purchase;
         $purchase->setProduct($product);
         $purchase->setUser($user);
-        $purchase->setPrice($product->getPrice());
+        $purchase->setPrice( (float) $request->request->get('mc_gross'));
         $entityManager->persist($purchase);
         $entityManager->flush();
 

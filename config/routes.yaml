@@ -46,6 +46,10 @@ registration-import:
    path: /register/import
    controller: App\Controller\RegistrationController::import
    methods: POST
+registration-edit:
+   path: /register/edit
+   controller: App\Controller\RegistrationController::edit
+   methods: POST
 login-form:
    path: /login
    controller: App\Controller\LoginController::index

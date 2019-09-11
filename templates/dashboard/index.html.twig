@@ -2,9 +2,33 @@
 {% block title %}
 Dashboard
 {% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script>
+    $('#editAccountModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var fname = button.data('fname'),
+            lname = button.data('lname'),
+            type = button.data('type'),
+            phone = button.data('phone'),
+            email = button.data('email'),
+            id = button.data('id');
+        var modal = $(this)
+        modal.find('.modal-title').text('Edit ' + fname);
+        modal.find('.modal-body input[name="fname"]').val(fname);
+        modal.find('.modal-body input[name="lname"]').val(lname);
+        $('#edit-type > option[value="'+type+'"]').prop('selected', true);
+        modal.find('.modal-body input[name="phone"]').val(phone);
+        modal.find('.modal-body input[name="email"]').val(email);
+        modal.find('#edit-id').val(id);
+    });
+
+</script>
+{% endblock %}
 {% block body %}
 {% include 'navbar.admin.html.twig' %}
 {% set sum = 0 %}
+{% set types_arr = [] %}
 <div class="modal fade" id="importAccountModal" tabindex="-1" role="dialog" aria-labelledby="importAccountModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -12,7 +36,7 @@ Dashboard
         <form action="{{path('registration-import')}}" method="POST" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="importAccountModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="importAccountModalLabel">Import accounts</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -39,6 +63,62 @@ Dashboard
 
     </div>
 </div>
+<div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog" aria-labelledby="editAccountModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+        <form action="{{path('registration-edit')}}" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAccountModalLabel">Edit account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit-fname">First name</label>
+                        <input type="text" class="form-control" id="edit-fname" placeholder="First name" name="fname">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-lname">Last name</label>
+                        <input type="text" class="form-control" id="edit-lname" placeholder="Last name" name="lname">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-type">Type</label>
+                        <select class="form-control" id="edit-type" name="type">
+                            {% for k, v in constant('App\\Entity\\Buyer::TYPES') %}
+                            <option value="{{k}}">{{v}}</option>
+                            {% set types_arr = types_arr|merge({(v): k}) %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">Phone</label>
+                        <input type="text" class="form-control" id="edit-phone" placeholder="Phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">Email</label>
+                        <input type="text" class="form-control" id="edit-email" placeholder="Email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-password">Password</label>
+                        <input type="text" class="form-control" id="edit-password" placeholder="Password"
+                            name="password">
+                        <small id="passwordHelp" class="form-text text-muted">Leave this field blank to leave the
+                            password unchanged.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="id" id="edit-id">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -54,7 +134,8 @@ Dashboard
             </ul>
         </div>
         <div class="col-sm-2">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importAccountModal">Import accounts</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importAccountModal">Import
+                accounts</button>
         </div>
     </div>
     <div class="row">
@@ -72,6 +153,7 @@ Dashboard
                         <th scope="col">Phone</th>
                         <th scope="col">Email</th>
                         <th scope="col">Price</th>
+                        <th scope="col">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,11 +162,17 @@ Dashboard
                         <td>{{purchase.user.location.address}} {{purchase.user.location.zip}}
                             {{purchase.user.location.state}}
                             {{purchase.user.location.country}}</td>
-                        <td>{{purchase.user.seller.name}}</td>
-                        <td>{{purchase.user.seller.type}}</td>
+                        <td>{{purchase.user.seller.name}}, {{purchase.user.seller.type}}</td>
+                        <td>{{purchase.user.type}}</td>
                         <td>{{purchase.user.phone}}</td>
                         <td>{{purchase.user.email}}</td>
                         <td>{{purchase.price}}</td>
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#editAccountModal" data-id="{{purchase.user.id}}"
+                                data-fname="{{purchase.user.firstName}}" data-lname="{{purchase.user.lastName}}"
+                                data-type="{{types_arr[purchase.user.type]}}" data-phone="{{purchase.user.phone}}"
+                                data-email="{{purchase.user.email}}">Edit</button>
+                        </td>
                         {% set sum = sum + purchase.price %}
                     </tr>
                 </tbody>

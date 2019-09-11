@@ -115,8 +115,9 @@ class RegistrationController extends AbstractController
             $data = array_map('str_getcsv', explode("\n", file_get_contents($path)));
             $location = $entityManager->getRepository(Entity\Location::class)->find(-1);
             $seller = $entityManager->getRepository(Entity\Seller::class)->find(-1);
+            $createdEmails = [];
             for ($i = 1; $i < count($data); $i++) { // i = 1 bc first line is header
-                if ($data[$i][1] == null || $buyerRepo->findOneBy(['email' => $data[$i][1]]) !== null) {
+                if ($data[$i][1] == null || in_array($data[$i][1], $createdEmails) || $buyerRepo->findOneBy(['email' => $data[$i][1]]) !== null) {
                     continue;
                 }
                 $buyer = new Entity\Buyer;
@@ -150,11 +151,43 @@ class RegistrationController extends AbstractController
                 . "<p>If you have any questions, contact me at chris@storyoftheseason.co or call (518) 944-3311.</p>"
                 . "<p>Thanks,</p>"
                 . "<p>Chris Herman</p>");
+                $createdEmails[] = $data[$i][1];
             }
             $entityManager->flush();
             return new JsonResponse(true);
         }
         return new JsonResponse(false);
+    }
+
+    /**
+     * registration-edit
+     */
+    public function edit(Request $request, EntityManagerInterface $entityManager)
+    {
+        $id = $request->request->get('id');
+        $fname = $request->request->get('fname');
+        $lname = $request->request->get('lname');
+        $type = $request->request->get('type');
+        $phone = $request->request->get('phone');
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
+
+        $buyer = $entityManager->getRepository(Entity\Buyer::class)->find($id);
+        if ($buyer === null) {
+            throw new \Exception("Buyer {$id} not found");
+        }
+        $buyer->setFirstName($fname);
+        $buyer->setLastName($lname);
+        $buyer->setType($type);
+        $buyer->setPhone($phone);
+        $buyer->setEmail($email);
+        if ($password != '') {
+            $buyer->setPassword(password_hash($password, PASSWORD_DEFAULT));
+        }
+        $entityManager->merge($buyer);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('dashboard');
     }
 
 }

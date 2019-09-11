@@ -36,7 +36,7 @@ class ExportController extends AbstractController
                         "\"{$user->getEmail()}\"",
                         "\"{$user->getType()}\"",
                         "\"{$product->getName()}\"",
-                        "\"{$product->getPrice()}\""
+                        "\"{$purchase->getPrice()}\""
                     ]);
                 }
                 $response = new Response(implode("\n", $rows));

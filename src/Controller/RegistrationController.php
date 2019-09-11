@@ -122,6 +122,7 @@ class RegistrationController extends AbstractController
                 $buyer = new Entity\Buyer;
                 $purchase = new Entity\Purchase;
                 $purchase->setProduct($product);
+                $purchase->setPrice(0.0);
                 $buyer->setEmail($data[$i][1]);
                 $name = explode(' ', $data[$i][2]);
                 $buyer->setFirstName($name[0]);

@@ -60,7 +60,7 @@ border-top-right-radius: 0;
                 form.classList.add('was-validated');
                 $('.invalid-feedback').addClass('d-none');
                 setCookie('{%if admin%}admin_token{%else%}user_token{%endif%}', resp.token, 30);
-                window.location.href = "{%if admin%}{{path('product-admin')}}{%else%}{{path('shop')}}{%endif%}";
+                window.location.href = resp.redirect;
             }
         });
     }

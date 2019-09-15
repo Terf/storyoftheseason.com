@@ -36,7 +36,7 @@ class AdminLoginController extends AbstractController
                 $user->setToken($token);
                 $entityManager->merge($user);
                 $entityManager->flush();
-                return new JsonResponse(['result' => true, 'token' => $user->getToken()]);
+                return new JsonResponse(['result' => true, 'token' => $user->getToken(), 'redirect' => $this->generateUrl('product-admin')]);
             }
             return new JsonResponse(['result' => false, 'reason' => 'password']);
         }

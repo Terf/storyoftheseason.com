@@ -36,7 +36,8 @@ class LoginController extends AbstractController
                 $user->setToken($token);
                 $entityManager->merge($user);
                 $entityManager->flush();
-                return new JsonResponse(['result' => true, 'token' => $user->getToken()]);
+                $url = (count($user->getPurchases()) > 0) ? $this->generateUrl('my-library') : $this->generateUrl('shop');
+                return new JsonResponse(['result' => true, 'token' => $user->getToken(), 'redirect' => $url]);
             }
             return new JsonResponse(['result' => false, 'reason' => 'password']);
         }

@@ -9,10 +9,39 @@ Upload your Story
         var fileName = $(this).val();
         $('#file-name').text('You selected ' + fileName.replace(/^.*\\/, ""));
     });
+    $('#bookModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var url = button.data('url');
+        var title = button.data('title');
+        var modal = $(this);
+        modal.find('.modal-title').text(title);
+        modal.find('.modal-body iframe').attr('src', url);
+    });
 </script>
 {% endblock %}
 {% block body %}
 {% include 'navbar.html.twig' %}
+<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src=""></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container" style="margin-bottom: 15rem">
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item">
@@ -20,8 +49,8 @@ Upload your Story
                 aria-controls="my-library" aria-selected="true">My Library</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
-                aria-controls="upload" aria-selected="false">Upload Content</a>
+            <a class="nav-link" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload"
+                aria-selected="false">Upload Content</a>
         </li>
         <!-- <li class="nav-item">
             <a class="nav-link" id="account-details-tab" data-toggle="tab" href="#account-details" role="tab"
@@ -41,11 +70,16 @@ Upload your Story
                 <div class="card mb-1">
                     <img src="/uploads/{{book.image}}" class="card-img-top" alt="{{book.title}}">
                     <div class="card-body">
-                      <h5 class="card-title">{{book.title}}</h5>
-                      <p class="card-text"><a href="{{book.url}}" class="btn btn-primary">Open</a></p>
+                        <h5 class="card-title">{{book.title}}</h5>
+                        <p class="card-text">
+                            <button data-title="{{book.title}}" data-url="{{book.url}}" type="button"
+                                class="btn btn-primary" data-toggle="modal" data-target="#bookModal">
+                                Open
+                            </button>
+                        </p>
                     </div>
-                  </div>
-                  {% endfor %}
+                </div>
+                {% endfor %}
             </div>
             {% else %}
             <p>You have no purchases</p>

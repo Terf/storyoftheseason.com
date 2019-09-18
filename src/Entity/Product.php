@@ -53,11 +53,17 @@ class Product
      */
     private $coupons;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProspectiveBuyer", mappedBy="product", orphanRemoval=true)
+     */
+    private $prospectiveBuyers;
+
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
         $this->books = new ArrayCollection();
         $this->coupons = new ArrayCollection();
+        $this->prospectiveBuyers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +206,37 @@ class Product
             // set the owning side to null (unless already changed)
             if ($coupon->getProduct() === $this) {
                 $coupon->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProspectiveBuyer[]
+     */
+    public function getProspectiveBuyers(): Collection
+    {
+        return $this->prospectiveBuyers;
+    }
+
+    public function addProspectiveBuyer(ProspectiveBuyer $prospectiveBuyer): self
+    {
+        if (!$this->prospectiveBuyers->contains($prospectiveBuyer)) {
+            $this->prospectiveBuyers[] = $prospectiveBuyer;
+            $prospectiveBuyer->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProspectiveBuyer(ProspectiveBuyer $prospectiveBuyer): self
+    {
+        if ($this->prospectiveBuyers->contains($prospectiveBuyer)) {
+            $this->prospectiveBuyers->removeElement($prospectiveBuyer);
+            // set the owning side to null (unless already changed)
+            if ($prospectiveBuyer->getProduct() === $this) {
+                $prospectiveBuyer->setProduct(null);
             }
         }
 

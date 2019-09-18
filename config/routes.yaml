@@ -149,3 +149,12 @@ paypal-webhook:
    path: /webhooks/paypal
    controller: App\Controller\PaypalCallbackController::receiveEvent
    methods: POST
+
+prospective-buyer:
+   path: /admin/prospective-buyer
+   controller: App\Controller\ProspectiveBuyerController::index
+   methods: GET
+prospective-buyer-create:
+   path: /admin/prospective-buyer/create
+   controller: App\Controller\ProspectiveBuyerController::create
+   methods: POST

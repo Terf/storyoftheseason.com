@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% include 'navbar.admin.html.twig' %}
+    <div class="container">
+        <h2 class="mt-4 mb-4">Add non-user emails to product</h2>
+        <form action="{{ path('prospective-buyer-create') }}" method="POST" enctype="multipart/form-data" style="max-width: 50vw" class="d-block mx-auto">
+            <div class="form-group">
+                <label for="product">Products</label>
+                <select class="form-control" id="product" name="product">
+                    {% for product in products %}
+                        <option value="{{product.id}}">{{product.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

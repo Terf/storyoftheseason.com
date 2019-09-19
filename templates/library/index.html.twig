@@ -73,9 +73,10 @@ Upload your Story
                         <h5 class="card-title">{{book.title}}</h5>
                         <p class="card-text">
                             <button data-title="{{book.title}}" data-url="{{book.url}}" type="button"
-                                class="btn btn-primary" data-toggle="modal" data-target="#bookModal">
+                                class="btn btn-primary d-none d-sm-block" data-toggle="modal" data-target="#bookModal">
                                 Open
                             </button>
+                            <a href="{{book.url}}" target="_blank" class="btn btn-primary d-block d-sm-none">Open</a>
                         </p>
                     </div>
                 </div>

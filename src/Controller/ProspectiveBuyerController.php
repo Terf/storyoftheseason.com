@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity;
 
-class ProductManagerController extends AbstractController
+class ProspectiveBuyerController extends AbstractController
 {
     /**
      * prospective-buyer

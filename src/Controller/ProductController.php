@@ -20,20 +20,26 @@ class ProductController extends AbstractController
         } else {
             $admin = false;
         }
+        $purchases = [];
+        $user = null;
         if ($request->cookies->has('user_token')) {
             $user = $entityManager->getRepository(Entity\Buyer::class)->findOneBy(['token' => $request->cookies->get('user_token')]);
             $purchases = [];
-            foreach ($user->getPurchases() as $purchase) {
-                $purchases[] = $purchase->getProduct()->getId();
+            if ($user !== null) {
+                foreach ($user->getPurchases() as $purchase) {
+                    $purchases[] = $purchase->getProduct()->getId();
+                }
             }
-        } else {
-            $purchases = [];
         }
-        return $this->render('product/index.html.twig', [
+        $response = $this->render('product/index.html.twig', [
             'products' => $entityManager->getRepository(Entity\Product::class)->findAll(),
             'isAdmin' => $admin,
             'purchases' => $purchases
         ]);
+        if ($user === null) {
+            $response->headers->clearCookie('user_token');
+        }
+        return $response;
     }
 
     public function purchase(Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger)

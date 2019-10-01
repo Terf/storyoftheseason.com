@@ -1,0 +1,74 @@
+<div class="card mt-4">
+    {% if post != null %}
+        {% if post.upload|length == 1 %}
+            {% if 'image' in post.upload[0].mimeType %}
+                <img src="/uploads/{{post.upload[0].file}}" class="card-img-top" alt="{{post.upload[0].name}}">
+            {% endif %}
+            {% if 'video' in post.upload[0].mimeType %}
+                <video class="card-img-top">
+                    <source src="/uploads/{{post.upload[0].file}}" type="{{post.upload[0].mimeType}}">
+                </video>
+            {% endif %}
+        {% else %}
+            <div class="card-columns">
+                {% for upload in post.upload %}
+                    <div class="card bg-dark text-white">
+                        {% if 'image' in upload.mimeType %}
+                        <img src="/uploads/{{upload.file}}" class="card-img" alt="{{upload.name}}">
+                        {% endif %}
+                        {% if 'video' in upload.mimeType %}
+                        <video class="card-img">
+                            <source src="/uploads/{{upload.file}}" type="{{upload.mimeType}}">
+                        </video>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+    <div class="card-body">
+        <h5 class="card-title">{{user.firstName}}
+            {{user.lastName}}</h5>
+        <p class="card-text">{{post.text}}</p>
+        <p class="card-text">
+            <small class="text-muted">Posted
+                {{post.date|date("F jS \\a\\t g:ia")}}</small>
+        </p>
+        <p class="card-text" style="display:inline">
+            {{post.likes|length}}
+            likes &middot;
+            {{post.comments|length}}
+            comments &middot;
+        </p>
+        {% if user in post.likes %}
+            <form action="{{path('remove-like-submit')}}" method="POST" style="display:inline" data-type="like" data-post="{{post.id}}">
+                <input type="hidden" name="post" value="{{post.id}}">
+                <button type="submit" class="btn btn-link p-0">Unlike</button>
+            </form>
+        {% else %}
+            <form action="{{path('like-submit')}}" method="POST" style="display:inline" data-type="unlike" data-post="{{post.id}}">
+                <input type="hidden" name="post" value="{{post.id}}">
+                <button type="submit" class="btn btn-link p-0">Like</button>
+            </form>
+        {% endif %}
+    </div>
+    {% if post.comments|length > 0 %}
+        <ul class="list-group list-group-flush">
+            {% for comment in post.comments %}
+                <li class="list-group-item">
+                    <b>{{comment.user.firstName}}
+                        {{comment.user.lastName}}</b>
+                    {{comment.comment}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="card-body">
+        <form class="form-inline" action="{{path('comment-submit')}}" method="POST" data-type="comment" data-post="{{post.id}}">
+            <label class="sr-only" for="comment">Comment</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="comment" name="comment" placeholder="Comment" style="width: 80%">
+            <input type="hidden" value="{{post.id}}" name="post">
+            <button type="submit" class="btn btn-primary mb-2" style="width: 18%">Submit</button>
+        </form>
+    </div>
+</div>

@@ -21,33 +21,35 @@ class Upload
      */
     private $file;
 
+    private const PATH = '/var/www/html/public/uploads/';
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $caption;
 
     /**
-     * @ORM\Column(type="datetimetz")
+     * @ORM\Column(type="datetimetz", nullable=true)
      */
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $location;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $tags;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $message;
 
@@ -55,6 +57,11 @@ class Upload
      * @ORM\ManyToOne(targetEntity="App\Entity\Buyer", inversedBy="uploads")
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="upload")
+     */
+    private $post;
 
     public function getId(): ?int
     {
@@ -78,7 +85,7 @@ class Upload
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -90,7 +97,7 @@ class Upload
         return $this->caption;
     }
 
-    public function setCaption(string $caption): self
+    public function setCaption(?string $caption): self
     {
         $this->caption = $caption;
 
@@ -102,7 +109,7 @@ class Upload
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -114,7 +121,7 @@ class Upload
         return $this->location;
     }
 
-    public function setLocation(string $location): self
+    public function setLocation(?string $location): self
     {
         $this->location = $location;
 
@@ -126,7 +133,7 @@ class Upload
         return $this->tags;
     }
 
-    public function setTags(string $tags): self
+    public function setTags(?string $tags): self
     {
         $this->tags = $tags;
 
@@ -138,7 +145,7 @@ class Upload
         return $this->message;
     }
 
-    public function setMessage(string $message): self
+    public function setMessage(?string $message): self
     {
         $this->message = $message;
 
@@ -156,4 +163,22 @@ class Upload
 
         return $this;
     }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    public function getMimeType(): string
+    {
+        return (file_exists(self::PATH . $this->file)) ? mime_content_type(self::PATH . $this->file) : '';
+    }
+
 }

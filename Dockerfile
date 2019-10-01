@@ -14,4 +14,4 @@ RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev && \
 	a2enmod rewrite headers
 # copy rest of files later to take advantage of cache
 COPY . /var/www/html/
-RUN chown -R www-data:www-data /var/www/ && php bin/console --env=prod cache:clear
+RUN chown -R www-data:www-data /var/www/ && php bin/console --env=prod cache:clear && mv php/php.ini "$PHP_INI_DIR/php.ini"

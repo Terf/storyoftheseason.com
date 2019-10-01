@@ -1,0 +1,5 @@
+{% for post in posts %}
+    <div id="post{{post.id}}">
+        {{include('team_feed/post.html.twig') }}
+    </div>
+{% endfor %}

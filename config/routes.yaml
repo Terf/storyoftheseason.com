@@ -20,9 +20,34 @@ my-library:
    path: /my-library
    controller: App\Controller\LibraryController::index
    methods: GET
-upload-submit:
-   path: /upload/submit
-   controller: App\Controller\LibraryController::submit
+
+team-feed:
+   path: /my-feed
+   controller: App\Controller\TeamFeedController::index
+   methods: GET
+post-submit:
+   path: /my-feed/submit
+   controller: App\Controller\TeamFeedController::submit
+   methods: POST
+post-all:
+   path: /my-feed/posts
+   controller: App\Controller\TeamFeedController::allPosts
+   methods: GET
+post:
+   path: /my-feed/post/{id}
+   controller: App\Controller\TeamFeedController::post
+   methods: GET
+comment-submit:
+   path: /my-feed/submit/comment
+   controller: App\Controller\TeamFeedController::comment
+   methods: POST
+like-submit:
+   path: /my-feed/submit/like
+   controller: App\Controller\TeamFeedController::like
+   methods: POST
+remove-like-submit:
+   path: /my-feed/submit/like/remove
+   controller: App\Controller\TeamFeedController::removeLike
    methods: POST
 
 bookshelf:

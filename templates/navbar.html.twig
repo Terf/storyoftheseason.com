@@ -16,6 +16,9 @@
       <li class="nav-item {% if route == path('my-library') %}active{% endif %}">
         <a class="nav-link" href="{{ path('my-library') }}">My Library</a>
       </li>
+      <li class="nav-item {% if route == path('team-feed') %}active{% endif %}">
+        <a class="nav-link" href="{{ path('team-feed') }}">Team Feed</a>
+      </li>
     </ul>
     {% if app.request.cookies.get('user_token') == null %}
     <ul class="navbar-nav {% if route == path('login-form') %}active{% endif %}">

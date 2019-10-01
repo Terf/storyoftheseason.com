@@ -1,177 +1,72 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-Upload your Story
+    Upload your Story
 {% endblock %}
 {% block javascripts %}
-{{ parent() }}
-<script>
-    $('#customFile').on('change', function () {
-        var fileName = $(this).val();
-        $('#file-name').text('You selected ' + fileName.replace(/^.*\\/, ""));
-    });
-    $('#bookModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var url = button.data('url');
-        var title = button.data('title');
-        var modal = $(this);
-        modal.find('.modal-title').text(title);
-        modal.find('.modal-body iframe').attr('src', url);
-    });
-</script>
+    {{ parent() }}
+    <script>
+        $('#bookModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var url = button.data('url');
+            var title = button.data('title');
+            var modal = $(this);
+            modal.find('.modal-title').text(title);
+            modal.find('.modal-body iframe').attr('src', url);
+        });
+    </script>
 {% endblock %}
 {% block body %}
-{% include 'navbar.html.twig' %}
-<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bookModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src=""></iframe>
+    {% include 'navbar.html.twig' %}
+    <div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-body">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src=""></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container" style="margin-bottom: 15rem">
-    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="my-library-tab" data-toggle="tab" href="#my-library" role="tab"
-                aria-controls="my-library" aria-selected="true">My Library</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload"
-                aria-selected="false">Upload Content</a>
-        </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link" id="account-details-tab" data-toggle="tab" href="#account-details" role="tab"
-                aria-controls="account-details" aria-selected="false">Account Details / Subscription</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="referral-tab" data-toggle="tab" href="#referral" role="tab" aria-controls="referral"
-                aria-selected="false">Refer a Friend / Gift Story of the Season</a>
-        </li> -->
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane mt-4 fade show active" id="my-library" role="tabpanel" aria-labelledby="my-library-tab">
-            <h3 class="text-center">My Library</h3>
-            {% if library|length > 0 %}
-            <div class="card-columns">
+    <div class="container" style="margin-bottom: 15rem;min-height:80vh">
+        {% if library|length > 0 %}
+            <div class="row">
+                {% set title = '' %}
                 {% for book in library %}
-                <div class="card mb-1">
-                    <img src="/uploads/{{book.image}}" class="card-img-top" alt="{{book.title}}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{book.title}}</h5>
-                        <p class="card-text">
-                            <button data-title="{{book.title}}" data-url="{{book.url}}" type="button"
-                                class="btn btn-primary d-none d-sm-block" data-toggle="modal" data-target="#bookModal">
-                                Open
-                            </button>
-                            <a href="{{book.url}}" target="_blank" class="btn btn-primary d-block d-sm-none">Open</a>
-                        </p>
+                    {% if title != book.product.name %}
+                        <h3 class="mb-3 w-100">{{book.product.name}}</h3>
+                        {% set title = book.product.name %}
+                    {% endif %}
+                    <div class="col-12 col-md-4">
+
+                        <div class="card mb-1">
+                            <img src="/uploads/{{book.image}}" class="card-img-top" alt="{{book.title}}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{book.title}}</h5>
+                                <p class="card-text">
+                                    <button data-title="{{book.title}}" data-url="{{book.url}}" type="button" class="btn btn-primary d-none d-sm-block" data-toggle="modal" data-target="#bookModal">
+                                        Open
+                                    </button>
+                                    <a href="{{book.url}}" target="_blank" class="btn btn-primary d-block d-sm-none">Open</a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
-            {% else %}
-            <p>You have no purchases</p>
-            {% endif %}
-
-            {#{% if library == null or library|length == 0%}
-            <p>You have no uploaded content.</p>
-            {% else %}
-            {% for item in library %}
-            <div class="card-columns">
-                <div class="card mb-1">
-                    <img src="/uploads/{{item.file}}" class="card-img-top" alt="{{item.name}}">
-                    <div class="card-body">
-                      <h5 class="card-title">{{item.name}}</h5>
-                      <p class="card-text">{{item.caption}}</p>
-                      <p class="card-text"><small class="text-muted">Taken {{item.date|date("F j, Y, g:i a")}}</small></p>
-                    </div>
-                  </div>
-            </div>
-            {% endfor %}
-            {% endif %}#}
-        </div>
-        <div class="tab-pane mt-4 fade" id="upload" role="tabpanel" aria-labelledby="upload-tab">
-            <h3 class="text-center mb-2">Upload Content</h3>
-            <form action="{{ path('upload-submit') }}" method="POST" enctype="multipart/form-data"
-                onsubmit="document.getElementById('tz').value=Intl.DateTimeFormat().resolvedOptions().timeZone">
-                <div class="form-row">
-                    <div class="col form-group">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="customFile" name="file">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                        </div>
-                        <p id="file-name" class="text-muted"></p>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label for="name">Name of content</label>
-                        <input type="text" class="form-control" placeholder="Name" id="name" name="name">
-                    </div>
-                    <div class="col form-group">
-                        <label for="caption">Caption / context</label>
-                        <input type="text" class="form-control" placeholder="Caption / context" id="caption"
-                            name="caption">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label for="date">Date taken</label>
-                        <input type="text" class="form-control" placeholder="Date" id="date" name="date">
-                    </div>
-                    <div class="col form-group">
-                        <label for="location">Location taken</label>
-                        <input type="text" class="form-control" placeholder="Location" id="location" name="location">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label for="tags">Tags</label>
-                        <input type="text" class="form-control" placeholder="Tags" id="tags" name="tags">
-                    </div>
-                    <div class="col form-group">
-                        <label for="message">Other info / message</label>
-                        <input type="text" class="form-control" placeholder="Message" id="message" name="message">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="terms" name="terms">
-                            <label class="custom-control-label" for="terms">Waiver allowing storyIt to use
-                                content/waiver of liability</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col form-group">
-                        <input type="hidden" name="tz" value="" id="tz">
-                        <input type="hidden" name="user_id" value="{{user}}">
-                        <button id="upload-btn" type="submit" class="btn btn-outline-primary">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!-- <div class="tab-pane mt-4 fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
-            <h3 class="text-center">Account Details</h3>
-        </div>
-        <div class="tab-pane mt-4 fade" id="referral" role="tabpanel" aria-labelledby="referral-tab">
-            <p>something else</p>
-        </div> -->
+        {% else %}
+            <p class="text-center">You have no purchases.</p>
+        {% endif %}
     </div>
-</div>
-{% include 'footer.html.twig' %}
+    {% include 'footer.html.twig' %}
 {% endblock %}

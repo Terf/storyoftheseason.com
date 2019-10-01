@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Story of the season &middot; Team Feed
+{% endblock %}
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    <script>
+        document.getElementById('tz').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        $('form[method="POST"]').on('submit', formHandler);
+
+        $('#customFile').on('change', function () {
+            var fileName = $(this).val();
+            $('#file-name').text('You selected ' + fileName.replace(/^.*\\/, ""));
+        });
+
+        function formHandler(e) {
+            e.preventDefault();
+            var form = this;
+            var type = $(form).data('type');
+            var btn = $(form).find("button[type=submit]");
+            var btnVal = btn.text();
+            btn.html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> ' + btnVal);
+            $.ajax({
+                url: $(form).attr('action'),
+                type: 'POST',
+                data: new FormData(form),
+                cache: false,
+                contentType: false,
+                processData: false,
+                xhr: function () {
+                    var myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) { // For handling the progress of the upload
+                        myXhr.upload.addEventListener('progress', function (e) {
+                            if (e.lengthComputable) {
+                                console.log({value: e.loaded, max: e.total});
+                            }
+                        }, false);
+                    }
+                    return myXhr;
+                },
+                success: function (data) {
+                    switch (type) {
+                        case 'like': loadPost($(form).data('post'));
+                            break;
+                        case 'unlike': loadPost($(form).data('post'));
+                            break;
+                        case 'comment': loadPost($(form).data('post'));
+                            break;
+                        case 'post':
+                            $.ajax({
+                                url: '{{ path("post-all") }}',
+                                type: "GET",
+                                success: function (data) {
+                                    $("#all-posts").html(data);
+                                    $('form[method="POST"]').on('submit', formHandler);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(xhr, status, error);
+                                }
+                            });
+                            break;
+                    }
+                    btn.html(btnVal);
+                }
+            });
+        }
+
+        function loadPost(id) {
+            var url = '{{ path("post", {id: "placeholder"}) }}';
+            url = url.replace("placeholder", id);
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (data) {
+                    $("#post" + id).html(data);
+                    $('form[method="POST"]').on('submit', formHandler);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr, status, error);
+                }
+            });
+        }
+    </script>
+{% endblock %}
+{% block body %}
+{% include 'navbar.html.twig' %}
+{% if user == null %}
+    <p>You must be signed in to view this page.</p>
+{% else %}
+    <div class="container" style="min-height: 100vh">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-6">
+                <form action="{{path('post-submit')}}" method="POST" enctype="multipart/form-data" data-type="post">
+                    <div class="form-group mb-0">
+                        <label for="share">Share with
+                            {% if user.purchases|length == 1 %}
+                                {{user.purchases[0].product.name}}
+                            {% else %}
+                                your team
+                            {% endif %}
+                        </label>
+                        <textarea class="form-control" id="share" rows="3" placeholder="Type here..." name="text"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-link pl-0" data-toggle="modal" data-target="#uploadModal">
+                            Upload an image or video
+                        </button>
+                    </div>
+                    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="uploadModalLabel">Upload file</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-row">
+                                        <div class="col form-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="customFile" name="file[]" multiple="multiple">
+                                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                            </div>
+                                            <p id="file-name" class="text-muted"></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col form-group">
+                                            <label for="name">Name of content</label>
+                                            <input type="text" class="form-control" placeholder="Name" id="name" name="name">
+                                        </div>
+                                        <div class="col form-group">
+                                            <label for="caption">Caption / context</label>
+                                            <input type="text" class="form-control" placeholder="Caption / context" id="caption" name="caption">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col form-group">
+                                            <label for="date">Date taken</label>
+                                            <input type="text" class="form-control" placeholder="Date" id="date" name="date">
+                                        </div>
+                                        <div class="col form-group">
+                                            <label for="location">Location taken</label>
+                                            <input type="text" class="form-control" placeholder="Location" id="location" name="location">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col form-group">
+                                            <label for="tags">Tags</label>
+                                            <input type="text" class="form-control" placeholder="Tags" id="tags" name="tags">
+                                        </div>
+                                        <div class="col form-group">
+                                            <label for="message">Other info / message</label>
+                                            <input type="text" class="form-control" placeholder="Message" id="message" name="message">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if user.purchases|length == 1 %}
+                        <input type="hidden" name="product" value="{{user.purchases[0].product.id}}">
+                    {% else %}
+                        {% for purchase in user.purchases %}
+                            <select class="custom-select" name="product">
+                                <option value="">Select team</option>
+                                <option value="{{purchase.product.id}}">{{purchase.product.name}}</option>
+                            </select>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    <input type="hidden" name="tz" id="tz">
+                    <button type="submit" class="btn btn-block btn-outline-primary">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-12 col-md-6">
+            {% if posts|length == 0 %}
+                <p class="text-center mt-5">There are no posts to show now.</p>
+            {% endif %}
+
+            <div id="all-posts">
+                {{include('team_feed/posts.html.twig')}}
+            </div>
+        </div>
+    </div>
+</div>
+<div style="clear:both; height: 100px"></div>{% endif %}{% include 'footer.html.twig' %}{% endblock %}

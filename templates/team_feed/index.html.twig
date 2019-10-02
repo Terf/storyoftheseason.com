@@ -43,11 +43,11 @@
                 },
                 success: function (data) {
                     switch (type) {
-                        case 'like': loadPost($(form).data('post'));
+                        case 'like': loadPost($(form).data('post'), btn, btnVal);
                             break;
-                        case 'unlike': loadPost($(form).data('post'));
+                        case 'unlike': loadPost($(form).data('post'), btn, btnVal);
                             break;
-                        case 'comment': loadPost($(form).data('post'));
+                        case 'comment': loadPost($(form).data('post'), btn, btnVal);
                             break;
                         case 'post':
                             $.ajax({
@@ -56,6 +56,7 @@
                                 success: function (data) {
                                     $("#all-posts").html(data);
                                     $('form[method="POST"]').on('submit', formHandler);
+                                    btn.html(btnVal);
                                 },
                                 error: function (xhr, status, error) {
                                     console.log(xhr, status, error);
@@ -63,12 +64,11 @@
                             });
                             break;
                     }
-                    btn.html(btnVal);
                 }
             });
         }
 
-        function loadPost(id) {
+        function loadPost(id, btn, btnVal) {
             var url = '{{ path("post", {id: "placeholder"}) }}';
             url = url.replace("placeholder", id);
             $.ajax({
@@ -77,11 +77,40 @@
                 success: function (data) {
                     $("#post" + id).html(data);
                     $('form[method="POST"]').on('submit', formHandler);
+                    btn.html(btnVal);
                 },
                 error: function (xhr, status, error) {
                     console.log(xhr, status, error);
                 }
             });
+        }
+
+        $('#contentModal').on('show.bs.modal', function (event) {
+            var content = $(event.relatedTarget);
+            var modal = $(this);
+            var modalBody = modal.find('.modal-body');
+            var id = content.parent().attr('id');
+            modal.find('.modal-title').text('View ' + content.data('title'));
+            modalBody.html('<div id="contentModalAsset">' + content[0].outerHTML + '</div>');
+            var parent = content.parent().parent();
+            if (parent.hasClass('card-columns')) {
+                var gallery = parent.children();
+                var str = '<div class="card-deck">';
+                for (var i = 0; i < gallery.length; i++) {
+                    gallery[i] = gallery[i].cloneNode(true);
+                    if (id === gallery[i].id) {
+                        gallery[i].classList.add('border-danger');
+                        gallery[i].classList.add('shadow');
+                    }
+                    gallery[i].setAttribute('onclick', 'viewGalleryItem(this)');
+                    str += gallery[i].outerHTML.replace('data-toggle="modal" data-target="#contentModal"', '');
+                }
+                str += '</div>';
+                modalBody.append(str);
+            }
+        });
+        function viewGalleryItem(item) {
+            $('#contentModalAsset').html($(item).children().clone());
         }
     </script>
 {% endblock %}
@@ -90,6 +119,25 @@
 {% if user == null %}
     <p>You must be signed in to view this page.</p>
 {% else %}
+    <!-- Modal -->
+    <div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contentModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container" style="min-height: 100vh">
         <div class="row justify-content-md-center">
             <div class="col-12 col-md-6">

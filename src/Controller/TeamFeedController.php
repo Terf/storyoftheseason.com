@@ -34,7 +34,7 @@ class TeamFeedController extends AbstractController
         }
 
         return $this->render('team_feed/index.html.twig', [
-            'posts' => $posts,
+            'posts' => array_reverse($posts),
             'user' => $user
         ]);
     }

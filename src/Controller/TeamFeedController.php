@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Process\Process;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity;
 use \DateTime;
@@ -76,6 +77,11 @@ class TeamFeedController extends AbstractController
                 $upload->setLocation($location);
                 $upload->setTags($tags);
                 $upload->setMessage($message);
+                if (explode('/', $upload->getMimeType())[0] === 'video' && $file->guessClientExtension() !== 'mp4') {
+                    $process = new Process(['ffmpeg', "-i {$path}{$upload->getFile()}", '-codec', 'copy', "{$path}{$upload->getFile()}.mp4"]);
+                    $process->start();
+                    $upload->setFile("{$upload->getFile()}.mp4");
+                }
                 $post->addUpload($upload);
                 $entityManager->persist($upload);
             }

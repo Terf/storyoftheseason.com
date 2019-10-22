@@ -95,7 +95,7 @@
             var parent = content.parent().parent();
             if (parent.hasClass('card-columns')) {
                 var gallery = parent.children();
-                var str = '<div class="card-deck">';
+                var str = '<div class="card-deck"><div class="card border-0" style="cursor:pointer" onclick="viewGalleryItem(\'prev\')"><img src="/images/chevron-left.svg" class="card-img" alt="Left arrow"></div>';
                 for (var i = 0; i < gallery.length; i++) {
                     gallery[i] = gallery[i].cloneNode(true);
                     if (id === gallery[i].id) {
@@ -105,12 +105,26 @@
                     gallery[i].setAttribute('onclick', 'viewGalleryItem(this)');
                     str += gallery[i].outerHTML.replace('data-toggle="modal" data-target="#contentModal"', '');
                 }
-                str += '</div>';
+                str += '<div class="card border-0" style="cursor:pointer" onclick="viewGalleryItem(\'next\')"><img src="/images/chevron-right.svg" class="card-img" alt="Right arrow"></div></div>';
                 modalBody.append(str);
             }
         });
         function viewGalleryItem(item) {
-            $('#contentModalAsset').html($(item).children().clone());
+            if (item === 'next') {
+                var next = $('#contentModal').find('.border-danger').next();
+                if (next[0].hasAttribute('id')) {
+                    viewGalleryItem(next);
+                }
+            } else if (item === 'prev') {
+                var prev = $('#contentModal').find('.border-danger').prev();
+                if (prev[0].hasAttribute('id')) {
+                    viewGalleryItem(prev);
+                }
+            } else {
+                $('#contentModalAsset').html($(item).children().clone());
+                $(item).parent().children().removeClass('border-danger');
+                $(item).addClass('border-danger');
+            }
         }
     </script>
 {% endblock %}
@@ -140,7 +154,7 @@
     </div>
     <div class="container" style="min-height: 100vh">
         <div class="row justify-content-md-center">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-8">
                 <form action="{{path('post-submit')}}" method="POST" enctype="multipart/form-data" data-type="post">
                     <div class="form-group mb-0">
                         <label for="share">Share with
@@ -232,7 +246,7 @@
         </div>
     </div>
     <div class="row justify-content-md-center">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-8">
             {% if posts|length == 0 %}
                 <p class="text-center mt-5">There are no posts to show now.</p>
             {% endif %}

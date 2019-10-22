@@ -2,7 +2,7 @@
     {% if post != null %}
         {% if post.upload|length == 1 %}
             {% if 'image' in post.upload[0].mimeType %}
-                <img id="upload-{{post.upload[0].id}}" src="/uploads/{{post.upload[0].file}}" class="card-img-top" alt="{{post.upload[0].name}}" data-toggle="modal" data-target="#contentModal" data-title="{{post.upload[0].name}}">
+                <img id="upload-{{post.upload[0].id}}" src="/uploads/{{post.upload[0].file}}" class="card-img-top mb-0" alt="{{post.upload[0].name}}" data-toggle="modal" data-target="#contentModal" data-title="{{post.upload[0].name}}">
             {% endif %}
             {% if 'video' in post.upload[0].mimeType %}
                 <video controls id="upload-{{post.upload[0].id}}" class="card-img-top" data-toggle="modal" data-target="#contentModal" data-title="{{post.upload[0].name}}">
@@ -10,16 +10,16 @@
                 </video>
             {% endif %}
         {% else %}
-            <div class="card-columns">
+            <div class="card-columns" style="column-gap:0px">
                 {% for upload in post.upload %}
-                    <div class="card bg-dark text-white" id="upload-{{upload.id}}">
+                    <div class="card bg-dark text-white mb-0 rounded-0" id="upload-{{upload.id}}" style="cursor:pointer">
                         {% if 'image' in upload.mimeType %}
-                        <img src="/uploads/{{upload.file}}" class="card-img" alt="{{upload.name}}" data-toggle="modal" data-target="#contentModal" data-title="{{upload.name}}">
+                            <img src="/uploads/{{upload.file}}" class="card-img mb-0" alt="{{upload.name}}" data-toggle="modal" data-target="#contentModal" data-title="{{upload.name}}">
                         {% endif %}
                         {% if 'video' in upload.mimeType %}
-                        <video controls class="card-img" data-toggle="modal" data-target="#contentModal" data-title="{{upload.name}}">
-                            <source src="/uploads/{{upload.file}}" type="{{upload.mimeType}}">
-                        </video>
+                            <video controls class="card-img" data-toggle="modal" data-target="#contentModal" data-title="{{upload.name}}">
+                                <source src="/uploads/{{upload.file}}" type="{{upload.mimeType}}">
+                            </video>
                         {% endif %}
                     </div>
                 {% endfor %}

@@ -95,7 +95,7 @@
             var parent = content.parent().parent();
             if (parent.hasClass('card-columns')) {
                 var gallery = parent.children();
-                var str = '<div class="card-deck"><div class="card border-0" style="cursor:pointer" onclick="viewGalleryItem(\'prev\')"><img src="/images/chevron-left.svg" class="card-img" alt="Left arrow"></div>';
+                var str = '<div class="card-deck"><div class="card border-0 align-middle" style="cursor:pointer" onclick="viewGalleryItem(\'prev\')"><img src="/images/chevron-left.svg" style="width: 33%;height: 100%" class="card-img" alt="Left arrow"></div>';
                 for (var i = 0; i < gallery.length; i++) {
                     gallery[i] = gallery[i].cloneNode(true);
                     if (id === gallery[i].id) {
@@ -105,7 +105,7 @@
                     gallery[i].setAttribute('onclick', 'viewGalleryItem(this)');
                     str += gallery[i].outerHTML.replace('data-toggle="modal" data-target="#contentModal"', '');
                 }
-                str += '<div class="card border-0" style="cursor:pointer" onclick="viewGalleryItem(\'next\')"><img src="/images/chevron-right.svg" class="card-img" alt="Right arrow"></div></div>';
+                str += '<div class="card border-0 align-middle" style="cursor:pointer" onclick="viewGalleryItem(\'next\')"><img src="/images/chevron-right.svg" style="width: 33%;height: 100%" class="card-img" alt="Right arrow"></div></div>';
                 modalBody.append(str);
             }
         });
@@ -135,7 +135,7 @@
 {% else %}
     <!-- Modal -->
     <div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="contentModalLabel">Modal title</h5>
@@ -145,9 +145,6 @@
                 </div>
                 <div class="modal-body">
                     Loading...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

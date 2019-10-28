@@ -105,7 +105,7 @@
                     gallery[i].setAttribute('onclick', 'viewGalleryItem(this)');
                     str += gallery[i].outerHTML.replace('data-toggle="modal" data-target="#contentModal"', '');
                 }
-                str += '<div class="card border-0 align-middle" style="cursor:pointer" onclick="viewGalleryItem(\'next\')"><img src="/images/chevron-right.svg" style="width: 33%;height: 100%" class="card-img" alt="Right arrow"></div></div>';
+                str += '<div class="card border-0 align-middle" style="cursor:pointer" onclick="viewGalleryItem(\'next\')"><img src="/images/chevron-right.svg" style="width: 33%;height: 100%;position: absolute;right: 0;" class="card-img" alt="Right arrow"></div></div>';
                 modalBody.append(str);
             }
         });

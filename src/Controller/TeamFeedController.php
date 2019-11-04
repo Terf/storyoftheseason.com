@@ -78,7 +78,7 @@ class TeamFeedController extends AbstractController
                 $upload->setTags($tags);
                 $upload->setMessage($message);
                 if (explode('/', $upload->getMimeType())[0] === 'video' && $file->guessClientExtension() !== 'mp4') {
-                    $process = new Process(['ffmpeg', "-i {$path}{$upload->getFile()}", '-codec', 'copy', "{$path}{$upload->getFile()}.mp4"]);
+                    $process = new Process(['sudo', 'ffmpeg', "-i {$path}{$upload->getFile()}", '-codec', 'copy', "{$path}{$upload->getFile()}.mp4"]);
                     $process->start();
                     $upload->setFile("{$upload->getFile()}.mp4");
                 }

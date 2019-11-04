@@ -1,5 +1,6 @@
 <div class="card mt-4">
     {% if post != null %}
+        {# if there's just one post have a diff style #}
         {% if post.upload|length == 1 %}
             {% if 'image' in post.upload[0].mimeType %}
                 <img id="upload-{{post.upload[0].id}}" src="/uploads/{{post.upload[0].file}}" class="card-img-top mb-0" alt="{{post.upload[0].name}}" data-toggle="modal" data-target="#contentModal" data-title="{{post.upload[0].name}}">
@@ -12,9 +13,10 @@
                 </div>
             {% endif %}
         {% else %}
+            {# show multiple posts in card columns #}
             <div class="card-columns" style="column-gap:0px">
                 {% for upload in post.upload %}
-                    <div class="card bg-dark text-white mb-0 rounded-0" id="upload-{{upload.id}}" style="cursor:pointer">
+                    <div class="card bg-dark text-white mb-0 rounded-0 border-0" id="upload-{{upload.id}}" style="cursor:pointer;{% if loop.index > 7 %}display:none;{% endif %}">
                         {% if 'image' in upload.mimeType %}
                             <img src="/uploads/{{upload.file}}" class="card-img mb-0" alt="{{upload.name}}" data-toggle="modal" data-target="#contentModal" data-title="{{upload.name}}">
                         {% endif %}
@@ -27,6 +29,12 @@
                         {% endif %}
                     </div>
                 {% endfor %}
+                {% if post.upload|length > 7 %}
+                    <div class="card bg-dark text-white mb-0 rounded-0" data-fake="1">
+                        <div data-toggle="modal" data-target="#contentModal" class="card-header">{{post.upload|length - 7 }}
+                            more files</div>
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
     {% endif %}

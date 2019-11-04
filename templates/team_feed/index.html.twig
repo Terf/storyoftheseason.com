@@ -90,22 +90,34 @@
             var modal = $(this);
             var modalBody = modal.find('.modal-body');
             var id = content.parent().attr('id');
-            modal.find('.modal-title').text('View ' + content.data('title'));
-            modalBody.html('<div id="contentModalAsset">' + content[0].outerHTML + '</div>');
+            if (content[0].classList.value !== 'card-header') {
+                modal.find('.modal-title').text('View ' + content.data('title'));
+                modalBody.html('<div id="contentModalAsset">' + content[0].outerHTML + '</div>');   
+            } else {
+                modalBody.html('<div id="contentModalAsset"></div>');   
+            }
             var parent = content.parent().parent();
             if (parent.hasClass('card-columns')) {
                 var gallery = parent.children();
-                var str = '<div class="card-deck"><div class="card border-0 align-middle" style="cursor:pointer" onclick="viewGalleryItem(\'prev\')"><img src="/images/chevron-left.svg" style="width: 33%;height: 100%" class="card-img" alt="Left arrow"></div>';
+                var str = '<div class="card-deck mt-4"><div class="card border-0 align-middle" style="cursor:pointer;min-width:100px" onclick="viewGalleryItem(\'prev\')"><img src="/images/chevron-left.svg" style="width:33%;height: 100%" class="card-img" alt="Left arrow"></div>';
                 for (var i = 0; i < gallery.length; i++) {
+                    if (gallery[i].hasAttribute('data-fake')) {
+                        continue;
+                    }
                     gallery[i] = gallery[i].cloneNode(true);
+                    gallery[i].style.display = 'initial'; // show cards that are hidden if > 7 total cards
+                    gallery[i].style.minWidth = '150px';
+                    gallery[i].classList.add('mt-1');
                     if (id === gallery[i].id) {
                         gallery[i].classList.add('border-danger');
                         gallery[i].classList.add('shadow');
+                    } else { 
+                        gallery[i].classList.add('border-0');
                     }
                     gallery[i].setAttribute('onclick', 'viewGalleryItem(this)');
                     str += gallery[i].outerHTML.replace('data-toggle="modal" data-target="#contentModal"', '');
                 }
-                str += '<div class="card border-0 align-middle" style="cursor:pointer" onclick="viewGalleryItem(\'next\')"><img src="/images/chevron-right.svg" style="width: 33%;height: 100%;position: absolute;right: 0;" class="card-img" alt="Right arrow"></div></div>';
+                str += '<div class="card border-0 align-middle" style="cursor:pointer;min-width:100px" onclick="viewGalleryItem(\'next\')"><img src="/images/chevron-right.svg" style="width: 33%;height: 100%;position: absolute;right: 0;" class="card-img" alt="Right arrow"></div></div>';
                 modalBody.append(str);
             }
         });

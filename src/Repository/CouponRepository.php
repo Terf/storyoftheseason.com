@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Coupon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,12 +13,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Coupon[]    findAll()
  * @method Coupon[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CouponRepository extends ServiceEntityRepository
+class CouponRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Coupon::class);
-    }
+    // public function __construct(RegistryInterface $registry)
+    // {
+    //     parent::__construct($registry, Coupon::class);
+    // }
 
     // /**
     //  * @return Coupon[] Returns an array of Coupon objects

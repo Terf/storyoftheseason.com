@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Location;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,12 +13,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Location[]    findAll()
  * @method Location[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LocationRepository extends ServiceEntityRepository
+class LocationRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Location::class);
-    }
+    // public function __construct(RegistryInterface $registry)
+    // {
+    //     parent::__construct($registry, Location::class);
+    // }
 
     // /**
     //  * @return Location[] Returns an array of Location objects

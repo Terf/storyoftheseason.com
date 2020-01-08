@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,12 +13,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Book[]    findAll()
  * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BookRepository extends ServiceEntityRepository
+class BookRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Book::class);
-    }
+    // public function __construct(RegistryInterface $registry)
+    // {
+    //     parent::__construct($registry, Book::class);
+    // }
 
     // /**
     //  * @return Book[] Returns an array of Book objects

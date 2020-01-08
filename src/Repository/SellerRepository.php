@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Seller;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,12 +13,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Seller[]    findAll()
  * @method Seller[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SellerRepository extends ServiceEntityRepository
+class SellerRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Seller::class);
-    }
+    // public function __construct(RegistryInterface $registry)
+    // {
+    //     parent::__construct($registry, Seller::class);
+    // }
 
     // /**
     //  * @return Seller[] Returns an array of Seller objects

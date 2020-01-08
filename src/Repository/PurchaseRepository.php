@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Purchase;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,12 +13,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Purchase[]    findAll()
  * @method Purchase[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PurchaseRepository extends ServiceEntityRepository
+class PurchaseRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Purchase::class);
-    }
+    // public function __construct(RegistryInterface $registry)
+    // {
+    //     parent::__construct($registry, Purchase::class);
+    // }
 
     // /**
     //  * @return Purchase[] Returns an array of Purchase objects

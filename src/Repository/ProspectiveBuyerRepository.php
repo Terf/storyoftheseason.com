@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ProspectiveBuyer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
@@ -12,12 +13,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method ProspectiveBuyer[]    findAll()
  * @method ProspectiveBuyer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProspectiveBuyerRepository extends ServiceEntityRepository
+class ProspectiveBuyerRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProspectiveBuyer::class);
-    }
+    // public function __construct(ManagerRegistry $registry)
+    // {
+    //     parent::__construct($registry, ProspectiveBuyer::class);
+    // }
 
     // /**
     //  * @return ProspectiveBuyer[] Returns an array of ProspectiveBuyer objects

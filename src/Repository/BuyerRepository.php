@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Buyer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,12 +13,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Buyer[]    findAll()
  * @method Buyer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BuyerRepository extends ServiceEntityRepository
+class BuyerRepository extends EntityRepository
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Buyer::class);
-    }
+    // public function __construct(RegistryInterface $registry)
+    // {
+    //     parent::__construct($registry, Buyer::class);
+    // }
 
     // /**
     //  * @return Buyer[] Returns an array of Buyer objects

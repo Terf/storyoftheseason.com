@@ -138,6 +138,9 @@
                 $(item).addClass('border-danger');
             }
         }
+        $('video').on('click', function (e) {
+            e.stopPropagation();
+        });
     </script>
 {% endblock %}
 {% block body %}

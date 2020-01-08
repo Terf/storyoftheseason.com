@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev ffmpeg sudo && \
 	docker-php-ext-install zip pdo_mysql && \
 	./composer.install.sh && \
 	php composer.phar install && \
-	php composer.phar update && \
 	php composer.phar dump-env prod && \
 	a2enmod rewrite headers
 # copy rest of files later to take advantage of cache
